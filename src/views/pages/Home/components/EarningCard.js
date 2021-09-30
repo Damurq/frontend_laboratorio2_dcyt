@@ -72,15 +72,15 @@ const useStyles = makeStyles((theme) => ({
         zIndex: 1
     },
     cardHeading: {
-        fontSize: '2.125rem',
+        fontSize: '1rem',
         fontWeight: 500,
         marginRight: '8px',
         marginTop: '14px',
         marginBottom: '6px'
     },
     subHeading: {
-        fontSize: '1rem',
-        fontWeight: 500,
+        fontSize: '.6rem',
+        fontWeight: 300,
         color: theme.palette.secondary[200]
     },
     avatarCircle: {
@@ -141,7 +141,15 @@ const EarningCard = ({ isLoading }) => {
                         <Grid item>
                             <Grid container alignItems="center">
                                 <Grid item>
-                                    <Typography className={classes.cardHeading}>$500.00</Typography>
+                                    <Typography className={classes.cardHeading}>
+                                        <a
+                                            href="https://twitter.com/Dale_Letra/status/1442493907980464128"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            Dale LETRA
+                                        </a>
+                                    </Typography>
                                 </Grid>
                                 <Grid item>
                                     <Avatar className={classes.avatarCircle}>
@@ -151,7 +159,11 @@ const EarningCard = ({ isLoading }) => {
                             </Grid>
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
-                            <Typography className={classes.subHeading}>Total Earning</Typography>
+                            <Typography className={classes.subHeading}>
+                                Inicia ya el primer encuentro del ciclo de recolección y sistematización de la #AgendaSocialYDeDerechos con
+                                la facilitación de la Dra. Mariana Aylwin @maylwino Encuentro vía Zoom y presencial. Hoy con el sector de
+                                los trabajadores
+                            </Typography>
                         </Grid>
                     </Grid>
                 </MainCard>

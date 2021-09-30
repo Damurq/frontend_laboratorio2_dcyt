@@ -32,11 +32,13 @@
 
 .conten-image-home{
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .image-home{
     object-fit: cover;
-    width: 800%;
+    width: 95%;
     margin: auto;
     padding: .5rem;
 }
