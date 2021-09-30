@@ -11,9 +11,9 @@ import {
     MenuItem,
     FormHelperText,
     Button,
-    Divider, 
-    DialogActions, 
-    DialogContent, 
+    Divider,
+    DialogActions,
+    DialogContent,
     Stack
 } from '@material-ui/core';
 
@@ -27,9 +27,9 @@ class FormAdd extends Component {
         this.state = {
             description: "",
             file_pdf: "",
-            program_code: 0,
+            program_code: 1,
             comboBox: [{
-                "code": 0,
+                "code": 1,
                 "name": "------------"
             }]
         };
@@ -42,7 +42,6 @@ class FormAdd extends Component {
                 if (response.length > 0) {
                     let fdt = filterDataTable(["code", "name"], response);
                     this.setState({ ["comboBox"]: fdt });
-                    console.log(fdt)
                 }
             })
         // return () => ac.abort();
@@ -61,50 +60,59 @@ class FormAdd extends Component {
     }
     handleSubmit(event) {
         event.preventDefault();
-        // file_pdf = document.querySelector('input[type="file"]').files[0];
-        const { description, file_pdf, program_code } = this.state;
-        console.log({ description, file_pdf, program_code })
-        console.log("here")
+        console.log(program_code.nextSibling.value)
+        console.log(file_pdf.files[0])
+        console.log(description.value)
         let url = "http://127.0.0.1:8000/api/pensum/create/"
         fetch(url, {
             method: 'POST',
-            body: { description, file_pdf, program_code },
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Accept": "application/json",
+            },
+            body: { description: description.value, file_pdf: file_pdf.files[0], program_code:program_code.nextSibling.value },
         }).then((result) => {
             console.log(result)
         }).catch((error) => {
             console.log(error)
         });
+        // file_pdf = document.querySelector('input[type="file"]').files[0];
     }
     render() {
         const { description, file_pdf, program_code, comboBox } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="modal-form">
-                    <TextField
-                        helperText=""
-                        name="description"
-                        id="description"
-                        label="Descripción"
-                        value={description}
-                        onChange={this.onChange}
-                    />
-                    <label htmlFor="file_pdf">
-                        <input type="file" id="file_pdf" name="file_pdf" onChange={this.uploadFiles} />
-                    </label>
-                    <FormControl sx={{ m: 1, width: 200 }}>
-                        <InputLabel id="program_code">Programs</InputLabel>
-                        <Select
-                            name="Programa"
-                            labelId="program_code"
-                            id="program_code"
-                            value={program_code}
-                            label="program_code"
+                    <div className="input">
+                        <TextField
+                            helperText=""
+                            name="description"
+                            id="description"
+                            label="Descripción"
+                            value={description}
                             onChange={this.onChange}
-                        >
-                            {comboBox.map((obj) => { return (<MenuItem value={obj.code}>{obj.name}</MenuItem>) })}
-                        </Select>
-                        <FormHelperText>Required</FormHelperText>
-                    </FormControl>
+                        />
+                    </div>
+                    <div className="input">
+                        <label htmlFor="file_pdf">
+                            <input type="file" id="file_pdf" name="file_pdf" onChange={this.uploadFiles} />
+                        </label>
+                    </div>
+                    <div className="input">
+                        <FormControl sx={{ m: 1, width: 200 }}>
+                            <InputLabel >Programas</InputLabel>
+                            <Select
+                                name="program_code"
+                                id="program_code"
+                                value={program_code}
+                                label="Programas"
+                                onChange={this.onChange}
+                            >
+                                {comboBox.map((obj) => { return (<MenuItem key={obj.code} value={obj.code}>{obj.name}</MenuItem>) })}
+                            </Select>
+                            <FormHelperText>Required</FormHelperText>
+                        </FormControl>
+                    </div>
                 </div>
                 <Divider />
                 <div className="buttons-group">

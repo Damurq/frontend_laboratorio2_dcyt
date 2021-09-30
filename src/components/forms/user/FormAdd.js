@@ -9,8 +9,8 @@ class FormAdd extends Component {
     constructor() {
         super();
         this.state = {
-            name: '',
-            number_semesters: 0,
+            first_name: '',
+            last_name: '',
         };
     }
     onChange = (e) => {
@@ -30,25 +30,22 @@ class FormAdd extends Component {
         // });
     }
     render() {
-        const { name, number_semesters } = this.state;
+        const { first_name, last_name } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="modal-form">
                     <TextField
-                        helperText=""
-                        name="name"
-                        id="name"
+                        name="first_name"
+                        id="first_name"
                         label="Nombre"
-                        value={name}
+                        value={first_name}
                         onChange={this.onChange}
                     />
                     <TextField
-                        id="number_semesters"
-                        name="number_semesters"
-                        label="Cantidad de semestre"
-                        type="number"
-                        variant="outlined"
-                        value={number_semesters}
+                        name="last_name"
+                        id="last_name"
+                        label="Apellido"
+                        value={last_name}
                         onChange={this.onChange}
                     />
                 </div>

@@ -8,10 +8,10 @@ const Foam = () => {
     let aBgBubbles = [];
 
     function addBubble() {
-        aBubbles.push(new Bubble('rgb(255, 194, 194)', 3.0));
+        aBubbles.push(new Bubble('rgb(93, 99, 255)', 3.0));
     }
     function addBgBubble() {
-        aBgBubbles.push(new Bubble('rgb(255, 255, 255)', 7.0));
+        aBgBubbles.push(new Bubble('rgb(175, 175, 243)', 7.0));
     }
 
     class Bubble {

@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 html, body {
-background-color: #AD0170;
+background-color: #0E1E36;
 margin:0;
 padding: 0;
 overflow: hidden;
@@ -20,7 +20,7 @@ position: absolute;
 height: 50px;
 bottom: 0;
 left: 0;
-background:rgb(255, 194, 194);
+background:rgb(93, 99, 255);
 }
 svg {
     display: none;

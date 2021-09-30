@@ -128,44 +128,13 @@ const EarningCard = ({ isLoading }) => {
                                     </Avatar>
                                 </Grid>
                                 <Grid item>
-                                    <Avatar
-                                        variant="rounded"
-                                        className={classes.avatarRight}
-                                        aria-controls="menu-earning-card"
-                                        aria-haspopup="true"
-                                        onClick={handleClick}
-                                    >
-                                        <MoreHorizIcon fontSize="inherit" />
-                                    </Avatar>
-                                    <Menu
-                                        id="menu-earning-card"
-                                        anchorEl={anchorEl}
-                                        keepMounted
-                                        open={Boolean(anchorEl)}
-                                        onClose={handleClose}
-                                        variant="selectedMenu"
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'right'
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right'
-                                        }}
-                                    >
-                                        <MenuItem onClick={handleClose}>
-                                            <GetAppTwoToneIcon fontSize="inherit" className={classes.menuItem} /> Import Card
-                                        </MenuItem>
-                                        <MenuItem onClick={handleClose}>
-                                            <FileCopyTwoToneIcon fontSize="inherit" className={classes.menuItem} /> Copy Data
-                                        </MenuItem>
-                                        <MenuItem onClick={handleClose}>
-                                            <PictureAsPdfTwoToneIcon fontSize="inherit" className={classes.menuItem} /> Export
-                                        </MenuItem>
-                                        <MenuItem onClick={handleClose}>
-                                            <ArchiveTwoToneIcon fontSize="inherit" className={classes.menuItem} /> Archive File
-                                        </MenuItem>
-                                    </Menu>
+                                    <div className="conten-image-home">
+                                        <img
+                                            src="https://pbs.twimg.com/media/FATEjy_UcAc_TjX?format=jpg&name=small"
+                                            alt="ucla"
+                                            className="image-home"
+                                        />
+                                    </div>
                                 </Grid>
                             </Grid>
                         </Grid>

@@ -10,14 +10,8 @@ const AuthLogin = Loadable(lazy(() => import('views/pages/Login')));
 // ===========================|| AUTHENTICATION ROUTING ||=========================== //
 
 const AuthenticationRoutes = {
-    path: '/',
-    element: <MinimalLayout />,
-    children: [
-        {
-            path: '/login',
-            element: <AuthLogin />
-        }
-    ]
+    path: '/login',
+    element: <AuthLogin />
 };
 
 export default AuthenticationRoutes;

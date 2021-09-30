@@ -30,6 +30,17 @@
     justify-content: space-between;
 }
 
+.conten-image-home{
+    width: 100%;
+}
+
+.image-home{
+    object-fit: cover;
+    width: 800%;
+    margin: auto;
+    padding: .5rem;
+}
+
 // ===========================|| STATE-SPAN ||=========================== //
 
 .div--inactive{

@@ -10,9 +10,7 @@ import {
     Checkbox,
     Divider,
     FormControl,
-    FormControlLabel,
     FormHelperText,
-    Grid,
     IconButton,
     InputAdornment,
     InputLabel,
@@ -79,11 +77,6 @@ const FirebaseLogin = (props, { ...others }) => {
 
     const customization = useSelector((state) => state.customization);
     const scriptedRef = useScriptRef();
-    const [checked, setChecked] = React.useState(true);
-
-    const googleHandler = async () => {
-        console.error('Login');
-    };
 
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => {
@@ -183,17 +176,6 @@ const FirebaseLogin = (props, { ...others }) => {
                                 </FormHelperText>
                             )}
                         </FormControl>
-                        <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
-                            <Typography
-                                variant="subtitle1"
-                                component={Link}
-                                to="/pages/forgot-password/forgot-password3"
-                                color="secondary"
-                                sx={{ textDecoration: 'none' }}
-                            >
-                                ¿Olvido su contraseña?
-                            </Typography>
-                        </Stack>
                         {errors.submit && (
                             <Box
                                 sx={{

@@ -19,7 +19,7 @@ const dashboard = {
             id: 'default',
             title: 'Home',
             type: 'item',
-            url: '/home/default',
+            url: '/',
             icon: icons.IconHome2,
             breadcrumbs: false
         }
