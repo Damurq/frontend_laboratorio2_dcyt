@@ -1,0 +1,30 @@
+* {
+    box-sizing: border-box;
+}
+html, body {
+background-color: #AD0170;
+margin:0;
+padding: 0;
+overflow: hidden;
+}
+canvas {
+position: absolute;
+top: 0;
+left: 0;
+-webkit-filter: url("#goo");
+filter: url("#goo");
+}
+footer {
+width: 100%;
+position: absolute;
+height: 50px;
+bottom: 0;
+left: 0;
+background:rgb(255, 194, 194);
+}
+svg {
+    display: none;
+}
+.espuma{
+    z-index: -50;
+}

@@ -1,0 +1,32 @@
+{
+    "pensum":{
+        "data":["code","date_issue","expiration_date","is_active"],
+        "labels":{
+            "code":"Codigo",
+            "date_issue":"Fecha de emisión",
+            "expiration_date":"Fecha final",
+            "is_active":"Estado"
+        },
+        "ignore":[]
+    },
+    "program":{
+        "data":["code","name","number_semesters","is_active"],
+        "labels":{
+            "code":"Codigo",
+            "name":"Nombre",
+            "number_semesters":"Número de semestres",
+            "is_active":"Estado"
+        },
+        "ignore":[]
+    },
+    "user":{
+        "data":["photo","code","first_name","last_name","status"],
+        "labels":{
+            "photo":"Foto",
+            "first_name":"Nombre",
+            "last_name":"Apellido",
+            "status":"Estado"
+        },
+        "ignore":["code"]
+    }
+}

@@ -13,7 +13,9 @@ import themes from './themes';
 // project imports
 import NavigationScroll from './layout/NavigationScroll';
 
-function App() {
+// ===========================|| APP ||=========================== //
+
+const App = () => {
     const customization = useSelector((state) => state.customization);
 
     return (
@@ -26,6 +28,6 @@ function App() {
             </ThemeProvider>
         </StyledEngineProvider>
     );
-}
+};
 
 export default App;

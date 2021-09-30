@@ -33,9 +33,15 @@ const useStyles = makeStyles((theme) => ({
     boxContainer: {
         width: '228px',
         display: 'flex',
+        justifyContent: 'space-between',
         [theme.breakpoints.down('md')]: {
             width: 'auto'
         }
+    },
+    boxHeader: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'space-between'
     }
 }));
 
@@ -46,26 +52,23 @@ const Header = ({ handleLeftDrawerToggle }) => {
 
     return (
         <>
-            {/* logo & toggler button */}
-            <div className={classes.boxContainer}>
-                <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
-                    <LogoSection />
-                </Box>
-                <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
-                    <Avatar variant="rounded" className={classes.headerAvatar} onClick={handleLeftDrawerToggle} color="inherit">
-                        <IconMenu2 stroke={1.5} size="1.3rem" />
-                    </Avatar>
-                </ButtonBase>
+            <div className={classes.boxHeader}>
+                {/* logo & toggler button */}
+                <div className={classes.boxContainer}>
+                    <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
+                        <LogoSection />
+                    </Box>
+                    <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
+                        <Avatar variant="rounded" className={classes.headerAvatar} onClick={handleLeftDrawerToggle} color="inherit">
+                            <IconMenu2 stroke={1.5} size="1.3rem" />
+                        </Avatar>
+                    </ButtonBase>
+                </div>
+
+                {/* notification & profile */}
+                {/* <NotificationSection /> */}
+                <ProfileSection />
             </div>
-
-            {/* header search */}
-            <SearchSection theme="light" />
-            <div className={classes.grow} />
-            <div className={classes.grow} />
-
-            {/* notification & profile */}
-            <NotificationSection />
-            <ProfileSection />
         </>
     );
 };

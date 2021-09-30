@@ -1,0 +1,17 @@
+.modal-form{
+    margin-top: 2rem;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.buttons-group{
+    margin-top: 2rem;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: end;
+}
+
+.input{
+    margin: 1rem;
+}

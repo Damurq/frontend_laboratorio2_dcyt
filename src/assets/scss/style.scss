@@ -10,6 +10,55 @@
     margin-right: 8px;
 }
 
+// ===========================|| CARD-CRISTAL ||=========================== //
+
+.card-cristal{
+    z-index: 50;
+    background: rgba( 255, 255, 255, 0.4 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    border-radius: 25px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+// ===========================|| OTHERS ||=========================== //
+.header-content-section{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+// ===========================|| STATE-SPAN ||=========================== //
+
+.div--inactive{
+    color: #c62828;
+    background: #ef9a9a;
+    padding: .5rem .8rem;
+    width: fit-content;
+    border-radius: 25px;
+}
+
+.div--active{
+    color: #00c853;
+    background: #b9f6ca;
+    padding: .5rem .8rem;
+    width: fit-content;
+    border-radius: 25px;
+}
+
+// ===========================|| BTN ||=========================== //
+
+.btn--circle{
+    background-color: rgb(0, 0, 0);
+    border-color: rgb(0, 0, 0);
+    border-radius: 50%;
+    color: rgb(255, 255, 255);
+    padding: 0.3rem;
+    cursor: pointer;
+}
+
 // ===========================|| PERFECT SCROLLBAR ||=========================== //
 
 .scrollbar-container {
@@ -121,3 +170,4 @@
         transform: translateX(10px);
     }
 }
+
