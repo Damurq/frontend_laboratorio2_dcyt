@@ -1,20 +1,35 @@
 /* eslint-disable */
-import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Button } from '@material-ui/core';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import DatePicker from '@material-ui/lab/DatePicker';
+import { TextField, Button, Divider, DialogActions,Stack } from '@material-ui/core';
 import React, { Component } from 'react';
+import { filterDataTable, request } from '../../../utils/fetch/searchData'
 
-class FormAdd extends Component {
-    constructor() {
-        super();
+class FormUpdate extends Component {
+    constructor(props) {
+        super(props);
+        const { pk } = props;
         this.state = {
+            code: "",
             name: '',
             number_semesters: 0,
-            code: 0,
-            is_active
+            is_active:true,
         };
+
     }
+    componentDidMount(){
+        //const ac = new AbortController();
+        let url = "http://127.0.0.1:8000/api/program/detail/"+ this.pk
+        request(url)
+            .then((response) => {
+                console.log(response)
+                if (response.length > 0){
+                    Object.keys(response).map((name)=>{
+                        this.setState({ [name]: response[name] });
+                    })
+                }
+            })
+        // return () => ac.abort();
+    }
+
     onChange = (e) => {
         /*
           Because we named the inputs to match their
@@ -23,16 +38,25 @@ class FormAdd extends Component {
         */
         this.setState({ [e.target.name]: e.target.value });
     }
+
     handleSubmit(event) {
         event.preventDefault();
-        const data = new FormData(event.target);
-        // fetch('/api/form-submit-url', {
-        //     method: 'POST',
-        //     body: data,
-        // });
+        // file_pdf = document.querySelector('input[type="file"]').files[0];
+        const { number_semesters } = this.state;
+        console.log({ number_semesters })
+        console.log("here")
+        let url = "http://127.0.0.1:8000/api/pensum/create/"
+        fetch(url, {
+            method: 'PUT',
+            body: { number_semesters },
+        }).then((result) => {
+            console.log(result)
+        }).catch((error)=>{
+            console.log(error)
+        });
     }
     render() {
-        const { name, number_semesters,code,is_active } = this.state;
+        const { code, name, number_semesters, is_active } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="modal-form">
@@ -40,9 +64,9 @@ class FormAdd extends Component {
                         helperText=""
                         name="code"
                         id="code"
+                        type="number"
                         label="Codigo"
                         value={code}
-                        onChange={this.onChange}
                         disabled
                     />
                     <TextField
@@ -51,7 +75,6 @@ class FormAdd extends Component {
                         id="name"
                         label="Nombre"
                         value={name}
-                        onChange={this.onChange}
                     />
                     <TextField
                         id="number_semesters"
@@ -68,7 +91,6 @@ class FormAdd extends Component {
                         id="is_active"
                         label="Estado"
                         value={is_active}
-                        onChange={this.onChange}
                         disabled
                     />
                 </div>
@@ -76,11 +98,11 @@ class FormAdd extends Component {
                 <div className="buttons-group">
                     <DialogActions>
                         <Stack direction="row" spacing={2}>
-                            <Button variant="contained" color="error" onClick={handleClose}>
-                                Cancelar
+                            <Button variant="contained" color="error">
+                                Eliminar
                             </Button>
                             <Button variant="contained" type="submit" color="success">
-                                Añadir
+                                Actualizar
                             </Button>
                         </Stack>
                     </DialogActions>
@@ -90,4 +112,4 @@ class FormAdd extends Component {
     }
 }
 
-export default FormAdd;
+export default FormUpdate;

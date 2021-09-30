@@ -1,9 +1,25 @@
 /* eslint-disable */
-import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Button } from '@material-ui/core';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import DatePicker from '@material-ui/lab/DatePicker';
+// react import
 import React, { Component } from 'react';
+
+// third party
+import {
+    TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+    FormHelperText,
+    Button,
+    Divider, 
+    DialogActions, 
+    DialogContent, 
+    Stack
+} from '@material-ui/core';
+
+// project imports
+import { filterDataTable, request } from '../../../utils/fetch/searchData'
+
 
 class FormAdd extends Component {
     constructor() {
@@ -13,23 +29,23 @@ class FormAdd extends Component {
             file_pdf: "",
             program_code: 0,
             comboBox: [{
-                "code":0,
-                "name":"------------"
+                "code": 0,
+                "name": "------------"
             }]
         };
     }
-    componentDidMount(){
-        const ac = new AbortController();
+    componentDidMount() {
+        // const ac = new AbortController();
         let url = "http://127.0.0.1:8000/api/program/list/"
         request(url)
             .then((response) => {
-                if (response.length > 0){
-                    let fdt = filterDataTable(["code","name"], response);
+                if (response.length > 0) {
+                    let fdt = filterDataTable(["code", "name"], response);
                     this.setState({ ["comboBox"]: fdt });
                     console.log(fdt)
                 }
             })
-        return () => ac.abort();
+        // return () => ac.abort();
     }
 
     onChange = (e) => {
@@ -40,7 +56,7 @@ class FormAdd extends Component {
         */
         this.setState({ [e.target.name]: e.target.value });
     }
-    uploadFiles = (e) =>{
+    uploadFiles = (e) => {
         this.setState({ [e.target.name]: e.target.files });
     }
     handleSubmit(event) {
@@ -55,12 +71,12 @@ class FormAdd extends Component {
             body: { description, file_pdf, program_code },
         }).then((result) => {
             console.log(result)
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error)
         });
     }
     render() {
-        const { description, file_pdf, program_code } = this.state;
+        const { description, file_pdf, program_code, comboBox } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="modal-form">
@@ -73,7 +89,7 @@ class FormAdd extends Component {
                         onChange={this.onChange}
                     />
                     <label htmlFor="file_pdf">
-                    <input type="file" id="file_pdf" name="file_pdf" onChange={this.uploadFiles}/>
+                        <input type="file" id="file_pdf" name="file_pdf" onChange={this.uploadFiles} />
                     </label>
                     <FormControl sx={{ m: 1, width: 200 }}>
                         <InputLabel id="program_code">Programs</InputLabel>
@@ -83,9 +99,9 @@ class FormAdd extends Component {
                             id="program_code"
                             value={program_code}
                             label="program_code"
-                            onChange={handleChange}
+                            onChange={this.onChange}
                         >
-                            {comboBox.map((obj)=>{return(<MenuItem value={obj.code}>{obj.name}</MenuItem>)})}
+                            {comboBox.map((obj) => { return (<MenuItem value={obj.code}>{obj.name}</MenuItem>) })}
                         </Select>
                         <FormHelperText>Required</FormHelperText>
                     </FormControl>
@@ -94,9 +110,6 @@ class FormAdd extends Component {
                 <div className="buttons-group">
                     <DialogActions>
                         <Stack direction="row" spacing={2}>
-                            <Button variant="contained" color="error" onClick={handleClose}>
-                                Cancelar
-                            </Button>
                             <Button variant="contained" type="submit" color="success">
                                 Añadir
                             </Button>

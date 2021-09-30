@@ -6,6 +6,7 @@ import schemas from '../../data/filterData.json'
 import Pagination from '../Pagination/Pagination'
 import React from 'react'
 import { IconEdit } from '@tabler/icons';
+import ModalForm from '../../ui-component/modalForm/ModalForm'
 
 /**
  *  Pantalla que permite imprimir datos de la api  de Rick y morty -esp

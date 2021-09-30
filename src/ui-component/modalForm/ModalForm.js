@@ -1,7 +1,7 @@
 /* eslint-disable */
 import * as React from 'react';
 import {
-    Box, Button, Typography, Modal, Divider, Stack, Dialog, DialogTitle, IconButton, DialogActions, DialogContent
+     Button, Modal, Divider, Dialog, DialogTitle, IconButton, DialogActions, DialogContent
 } from '@material-ui/core';
 import forms from '../../data/forms'
 import GenerateInputs from '../GenerateInputs/GenerateInputs'
@@ -10,7 +10,21 @@ import PropTypes from 'prop-types';
 import CloseIcon from '@material-ui/icons/Close';
 import { styled } from '@material-ui/styles';
 import { useEffect, useState } from 'react'
-import FormAdd from '../../components/forms/pensum/FormAdd'
+// import FormAdd from '../../components/forms/pensum/FormAdd'
+import { lazy } from 'react';
+
+// project imports
+import Loadable from '../../ui-component/Loadable';
+
+// formAdd
+const FormAddProgram = Loadable(lazy(() => import('components/forms/program/FormAdd')));
+const FormAddPensum = Loadable(lazy(() => import('components/forms/pensum/FormAdd')));
+
+// formUpdate
+const FormUpdateProgram = Loadable(lazy(() => import('components/forms/program/FormUpdate')));
+const FormUpdatePensum = Loadable(lazy(() => import('components/forms/pensum/FormUpdate')));
+
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuDialogContent-root': {
@@ -62,20 +76,22 @@ const style = {
     p: 4,
 };
 
-const ModalForm = ({schema, type}) => {
+const ModalForm = ({schema, type, pk=null}) => {
     const [open, setOpen] = useState(false);
     //const [comboBox, setComboBox] = useState(schema==="program"?true:false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     let form = forms[schema]
-
-    const handleSubmit = event => {
-        // const f=document.getElementById("form")
-        event.preventDefault();
-        const data = new FormData(event.target);
-        //console.log(event)
-        //console.log(data)
-    };
+    const jsx = ()=>{
+        switch (schema) {
+        case "program":
+            return (type==="add") ? <FormAddProgram /> : <FormUpdateProgram pk={pk}/>
+        case "pensum":
+            return (type==="add") ? <FormAddPensum /> : <FormUpdatePensum pk={pk}/>
+        default:
+            return (type==="add") ? <FormAddProgram /> : <FormUpdateProgram pk={pk}/>
+        }
+    }
 
     return (
         <div>
@@ -97,7 +113,8 @@ const ModalForm = ({schema, type}) => {
                     </BootstrapDialogTitle>
                     <Divider />
                     <DialogContent>
-                        <form id="form" onSubmit={handleSubmit} >
+                        {jsx()}
+                        {/* <form id="form" onSubmit={handleSubmit} >
                             {type=="add" && form["form"].filter( objInput => objInput.create ).map((input, i) => {
                                 return (<div key={"i" + i} className="input">
                                     <GenerateInputs type={input["type"]} data={input["data"]} />
@@ -117,7 +134,8 @@ const ModalForm = ({schema, type}) => {
                                 </Stack>
                             </DialogActions>}
                         </div>
-                        </form>
+                        </form> */}
+                        
                     </DialogContent>
                 </BootstrapDialog>
             </Modal>

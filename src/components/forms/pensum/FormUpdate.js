@@ -1,13 +1,14 @@
 /* eslint-disable */
-import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Button } from '@material-ui/core';
+import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Button,Divider } from '@material-ui/core';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import DatePicker from '@material-ui/lab/DatePicker';
 import React, { Component } from 'react';
 
 class FormUpdate extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        const { pk } = props;
         this.state = {
             code: "",
             description: "",
@@ -15,25 +16,29 @@ class FormUpdate extends Component {
             program_code: 0,
             date_issue:"",
             expiration_date:"",
-            is_active:"",
-            comboBox: [{
-                "code":0,
-                "name":"------------"
-            }]
+            is_active:true,
+            program_name:""
         };
+
     }
     componentDidMount(){
-        const ac = new AbortController();
-        let url = "http://127.0.0.1:8000/api/program/list/"
+        //const ac = new AbortController();
+        let url = "http://127.0.0.1:8000/api/pensum/detail/"+ this.pk
         request(url)
             .then((response) => {
+                console.log(response)
                 if (response.length > 0){
-                    let fdt = filterDataTable(["code","name"], response);
-                    setComboBox(fdt)
-                    console.log(fdt)
+                    Object.keys(response).map((name)=>{
+                        this.setState({ [name]: response[name] });
+                    })
+                    url = "http://127.0.0.1:8000/api/program/detail/"+ this.state.program_code
+                    request(url)
+                        .then((r) => {
+                            this.setState({ ["program_name"]: r["name"] });
+                        })
                 }
             })
-        return () => ac.abort();
+        // return () => ac.abort();
     }
 
     onChange = (e) => {
@@ -53,9 +58,9 @@ class FormUpdate extends Component {
         const { description, file_pdf, program_code } = this.state;
         console.log({ description, file_pdf, program_code })
         console.log("here")
-        let url = "http://127.0.0.1:8000/api/pensum/create/"
+        let url = "http://127.0.0.1:8000/api/program/create/"
         fetch(url, {
-            method: 'POST',
+            method: 'PUT',
             body: { description, file_pdf, program_code },
         }).then((result) => {
             console.log(result)
@@ -64,10 +69,18 @@ class FormUpdate extends Component {
         });
     }
     render() {
-        const { description, file_pdf, program_code } = this.state;
+        const { code, description, file_pdf, program_code,program_name,date_issue,expiration_date,is_active } = this.state;
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="modal-form">
+                    <TextField
+                        helperText=""
+                        name="code"
+                        id="code"
+                        label="Codigo"
+                        value={code}
+                        disabled
+                    />
                     <TextField
                         helperText=""
                         name="description"
@@ -79,30 +92,52 @@ class FormUpdate extends Component {
                     <label htmlFor="file_pdf">
                     <input type="file" id="file_pdf" name="file_pdf" onChange={this.uploadFiles}/>
                     </label>
-                    <FormControl sx={{ m: 1, width: 200 }}>
-                        <InputLabel id="program_code">Programs</InputLabel>
-                        <Select
-                            name="Programa"
-                            labelId="program_code"
-                            id="program_code"
-                            value={program_code}
-                            label="program_code"
-                            onChange={handleChange}
-                        >
-                            {comboBox.map((obj)=>{return(<MenuItem value={obj.code}>{obj.name}</MenuItem>)})}
-                        </Select>
-                        <FormHelperText>Required</FormHelperText>
-                    </FormControl>
+                    <TextField
+                        helperText=""
+                        name="program_name"
+                        id="program_name"
+                        label="Nombre del programa"
+                        value={program_name}
+                        disabled
+                    />
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            name="date_issue"
+                            label="Fecha de expiración"
+                            views={['day', 'month', 'year']}
+                            value={date_issue}
+                            disabled
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            name="expiration_date"
+                            label="Fecha de eliminación"
+                            views={['day', 'month', 'year']}
+                            value={expiration_date}
+                            disabled
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
+                    <TextField
+                        helperText=""
+                        name="is_active"
+                        id="is_active"
+                        label="Estado"
+                        value={is_active}
+                        disabled
+                    />
                 </div>
                 <Divider />
                 <div className="buttons-group">
                     <DialogActions>
                         <Stack direction="row" spacing={2}>
-                            <Button variant="contained" color="error" onClick={handleClose}>
-                                Cancelar
+                            <Button variant="contained" color="error">
+                                Eliminar
                             </Button>
                             <Button variant="contained" type="submit" color="success">
-                                Añadir
+                                Actualizar
                             </Button>
                         </Stack>
                     </DialogActions>
