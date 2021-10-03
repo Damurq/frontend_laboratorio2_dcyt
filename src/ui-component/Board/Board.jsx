@@ -1,6 +1,6 @@
 /* eslint-disable */
 import './Board.css'
-import { filterDataTable, request } from '../../utils/fetch/searchData'
+import { filterDataTable, request } from '../../utils/fetch/searchData.js'
 import { useEffect, useState } from 'react'
 import schemas from '../../data/filterData.json'
 import Pagination from '../Pagination/Pagination'
@@ -20,8 +20,8 @@ const Board = ({ schema, urlBase }) => {
     //pagination
     const [totalData, setTotalData] = useState([])          //Lista de datos que han sido filtrados -esp
     const [currentPage, setCurrentPage] = useState(1) //currentPage
-    const [totalRecords, setTotalRecords] = useState(21)    //Total de registros actuales           -esp
-    const [pageLimit, setPageLimit] = useState(20)
+    const [totalRecords, setTotalRecords] = useState(11)    //Total de registros actuales           -esp
+    const [pageLimit, setPageLimit] = useState(10)
     //otras
 
 
@@ -29,10 +29,10 @@ const Board = ({ schema, urlBase }) => {
     const onPageChanged = data => {
         if (totalData.length === 0) {
             setCurrentPage(data.currentPage);
-            let url = data.currentPage === 1 ? urlBase + schema : urlBase + schema + '?page=' + data.currentPage
+            let url = currentPage === 1 || currentPage === undefined ? `${process.env.REACT_APP_API_URL}/api/${schema}/list` : `${process.env.REACT_APP_API_URL}/api/${schema}/list/?page=` + data.currentPage
             request(url)
                 .then((response) => {
-                    setTotalRecords(response['info']['count']);
+                    setTotalRecords(response['count']);
                     if (response.results.length > 0) {
                         setPageLimit(response.results.length);
                         let fdt = filterDataTable(schemas[schema]['data'], response.results);
@@ -48,34 +48,34 @@ const Board = ({ schema, urlBase }) => {
     }
 
     useEffect(() => {
-        if (totalData.length === 0) {
+        if (totalData.length===0) {
             const ac = new AbortController();
             if (Object.keys(schemas).includes(schema)) {
-                // let url = data.currentPage === 1 ? urlBase + schema : urlBase + schema + '?page=' + data.currentPage
-                let url = urlBase + "/api/" + schema + "/list/"
+                let url = currentPage === 1 || currentPage === undefined ? `${process.env.REACT_APP_API_URL}/api/${schema}/list` : `${process.env.REACT_APP_API_URL}/api/${schema}/list/?page=` + data.currentPage
                 request(url)
                     .then((response) => {
-                        setTotalRecords(response.length);
-                        if (response.length > 0) {
-                            setPageLimit(response.length);
-                            let fdt = filterDataTable(schemas[schema]['data'], response);
+                        console.log(totalRecords)
+                        setTotalRecords(response['count']);
+                        if (response.results.length > 0) {
+                            setPageLimit(response.results.length);
+                            let fdt = filterDataTable(schemas[schema]["data"], response.results);
                             setData(fdt);
                         }
                     })
             }
             return () => ac.abort();
-        }
+        } 
         else {
             setTotalRecords(totalData.length);
-            let final = totalData.length >= 20 ? 19 : totalData.length
-            setData(totalData.slice(0, final));
+            let final = totalData.length >= 10 ? 9 : totalData.length
+            setData(totalData.slice(0,final));
             setCurrentPage(1);
             let btn = document.querySelector('button.page-link')
             if (btn) {
                 btn.click();
             }
         }
-    }, [data.currentPage, schema, totalData]);
+    }, [currentPage, schema, totalData]);
 
     return (
         <div>
@@ -136,9 +136,9 @@ const Board = ({ schema, urlBase }) => {
                         <div className=''>
                             <div id='totalRecords' className='none' name={totalRecords} >{totalRecords}</div>
 
-                            {totalRecords > 20 ?
+                            {totalRecords > 10 ?
                                 <Pagination totalRecords={totalRecords} pageLimit={pageLimit} pageNeighbours={1} onPageChanged={onPageChanged} />
-                                : <p></p>
+                                : <p>AQUI</p>
                             }
                         </div>
                     </React.Fragment>)

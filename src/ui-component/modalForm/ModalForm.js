@@ -1,7 +1,7 @@
 /* eslint-disable */
 import * as React from 'react';
 import {
-     Button, Modal, Divider, Dialog, DialogTitle, IconButton, DialogActions, DialogContent
+    Button, Modal, Divider, Dialog, DialogTitle, IconButton, DialogActions, DialogContent, Stack
 } from '@material-ui/core';
 import forms from '../../data/forms'
 import GenerateInputs from '../GenerateInputs/GenerateInputs'
@@ -76,27 +76,46 @@ const style = {
     p: 4,
 };
 
-const ModalForm = ({schema, type, pk=null}) => {
+const ModalForm = ({ schema, type, pk = null }) => {
     const [open, setOpen] = useState(false);
     //const [comboBox, setComboBox] = useState(schema==="program"?true:false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     let form = forms[schema]
-    const jsx = ()=>{
+    const jsx = () => {
         switch (schema) {
-        case "program":
-            return (type==="add") ? <FormAddProgram /> : <FormUpdateProgram pk={pk}/>
-        case "pensum":
-            return (type==="add") ? <FormAddPensum /> : <FormUpdatePensum pk={pk}/>
-        default:
-            return (type==="add") ? <FormAddProgram /> : <FormUpdateProgram pk={pk}/>
+            case "program":
+                return (type === "add") ? <FormAddProgram /> : <FormUpdateProgram pk={pk} />
+            case "pensum":
+                return (type === "add") ? <FormAddPensum /> : <FormUpdatePensum pk={pk} />
+            default:
+                return (type === "add") ? <FormAddProgram /> : <FormUpdateProgram pk={pk} />
         }
     }
-
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log(program_code.nextSibling.value)
+        console.log(file_pdf.files[0])
+        console.log(description.value)
+        // let url = "http://127.0.0.1:8000/api/pensum/create/"
+        // fetch(url, {
+        //     method: 'POST',
+        //     headers: {
+        //         "Content-Type": "multipart/form-data",
+        //         "Accept": "application/json",
+        //     },
+        //     body: { description: description.value, file_pdf: file_pdf.files[0], program_code:program_code.nextSibling.value },
+        // }).then((result) => {
+        //     console.log(result)
+        // }).catch((error) => {
+        //     console.log(error)
+        // });
+        // file_pdf = document.querySelector('input[type="file"]').files[0];
+    }
     return (
         <div>
             {String.prototype.toString(form["form"])}
-            <Button onClick={handleOpen}  variant="contained" color="success">Añadir</Button>
+            <Button onClick={handleOpen} variant="contained" color="success">Añadir</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -113,29 +132,29 @@ const ModalForm = ({schema, type, pk=null}) => {
                     </BootstrapDialogTitle>
                     <Divider />
                     <DialogContent>
-                        {jsx()}
-                        {/* <form id="form" onSubmit={handleSubmit} >
-                            {type=="add" && form["form"].filter( objInput => objInput.create ).map((input, i) => {
+                        {/* {jsx()} */}
+                        {<form id="form" onSubmit={handleSubmit} >
+                            {type == "add" && form["form"].filter(objInput => objInput.create).map((input, i) => {
                                 return (<div key={"i" + i} className="input">
                                     <GenerateInputs type={input["type"]} data={input["data"]} />
                                 </div>)
                             })}
-                        <Divider />
-                        <div className="buttons-group">
-                        {type=="add" && 
-                            <DialogActions>
-                                <Stack direction="row" spacing={2}>
-                                    <Button variant="contained" color="error" onClick={handleClose}>
-                                        Cancelar
-                                    </Button>
-                                    <Button variant="contained" type="submit" color="success">
-                                        Añadir
-                                    </Button>
-                                </Stack>
-                            </DialogActions>}
-                        </div>
-                        </form> */}
-                        
+                            <Divider />
+                            <div className="buttons-group">
+                                {type == "add" &&
+                                    <DialogActions>
+                                        <Stack direction="row" spacing={2}>
+                                            <Button variant="contained" color="error" onClick={handleClose}>
+                                                Cancelar
+                                            </Button>
+                                            <Button variant="contained" type="submit" color="success">
+                                                Añadir
+                                            </Button>
+                                        </Stack>
+                                    </DialogActions>}
+                            </div>
+                        </form>}
+
                     </DialogContent>
                 </BootstrapDialog>
             </Modal>

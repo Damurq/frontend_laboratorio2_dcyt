@@ -1,13 +1,19 @@
 /* eslint-disable */
+
 const defaultObject = {
-    info: {
-        count: 0,
-        next: null,
-        pages: 0
-    },
+    count: 0,
+    next: null,
     results: []
 };
 
+const requestObj = {
+    method: 'GET',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Token '+ localStorage.getItem('token')
+    }
+}
 
 
 /**
@@ -15,18 +21,28 @@ const defaultObject = {
  * @param {*} url 
  * @returns 
  */
-async function request(url){
-    try
-    {const response = await fetch(url)
-    if (!response.ok){   
-        return defaultObject
+async function request(url) {
+    try {
+        let obj = defaultObject
+        const response = await fetch(url,requestObj)
+        if (!response.ok) {
+            return defaultObject
+        }
+        else {
+            const data = await response.text();
+            const json = JSON.parse(data);
+            if (Array.isArray(json)){
+                obj["count"] = json.length
+                obj["pages"] = 1
+                obj["results"] = json
+                return obj
+            }
+            else{
+                return json;
+            }
+        }
     }
-    else{
-        const data = await response.text();
-        const json = JSON.parse(data);
-        return json;
-    }}
-    catch(e){
+    catch (e) {
         return defaultObject
     }
 }
@@ -36,8 +52,8 @@ async function request(url){
  * @param {*} data 
  * @returns 
  */
-function filterDataTable(labels,data){
-    let newData = data.map((obj)=>{
+function filterDataTable(labels, data) {
+    let newData = data.map((obj) => {
         let objData = {}
         labels.forEach((label) => {
             objData[label] = obj[label];
@@ -53,14 +69,14 @@ function filterDataTable(labels,data){
  * @param {*} schema 
  * @param {*} filters 
  */
-async function filterD (urlBase="",schema="",filters={}){
-    let newUrl = urlBase+schema 
-    Object.keys(filters).forEach((element,index)=>{
-        if (index==0){
-            newUrl+="/?"+element+"="+filters[element];
+async function filterD(urlBase = "", schema = "", filters = {}) {
+    let newUrl = urlBase + schema
+    Object.keys(filters).forEach((element, index) => {
+        if (index == 0) {
+            newUrl += "/?" + element + "=" + filters[element];
         }
-        else{
-            newUrl+="&"+element+"="+filters[element];
+        else {
+            newUrl += "&" + element + "=" + filters[element];
         }
     })
     let data = await request(newUrl)
@@ -68,32 +84,32 @@ async function filterD (urlBase="",schema="",filters={}){
     return data
 }
 
-async function getAll (urlBase="",schema="",labels){
-    let info =[]
-    let next = typeof urlBase==="string" ? urlBase+schema:null 
-    while (next!==null) {
+async function getAll(urlBase = "", schema = "", labels) {
+    let info = []
+    let next = typeof urlBase === "string" ? urlBase + schema : null
+    while (next !== null) {
         let data = await request(next)
-        next= data.info.next
-        info.push(...filterDataTable(labels,data.results));
+        next = data.info.next
+        info.push(...filterDataTable(labels, data.results));
     }
     return info;
 }
 
-async function character (){
+async function character() {
     let data = await request("https://rickandmortyapi.com/api/character")
     return data.results
 }
 
-async function episode (){
+async function episode() {
     let data = await request("https://rickandmortyapi.com/api/episode")
     return data.results
 }
 
-async function getDataBar (section,labels,label){
-    let result = await getAll("https://rickandmortyapi.com/api/",section,labels)
-        let dta = result.map((d)=>d[label])
-        return dta
-   
+async function getDataBar(section, labels, label) {
+    let result = await getAll("https://rickandmortyapi.com/api/", section, labels)
+    let dta = result.map((d) => d[label])
+    return dta
+
 }
 
 

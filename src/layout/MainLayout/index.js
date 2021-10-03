@@ -91,7 +91,7 @@ const MainLayout = ({ isAuthenticated, checkAuthenticated }) => {
 
     React.useEffect(() => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
-        checkAuthenticated();
+        // checkAuthenticated();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd, isAuthenticated]);
 

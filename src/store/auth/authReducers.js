@@ -12,10 +12,8 @@ export default function (state = initialState, action) {
 
     switch (type) {
         case AUTHENTICATED_FAIL:
-            console.log('1');
             return state;
         case AUTHENTICATED_SUCCESS:
-            console.log('2');
             return {
                 ...state,
                 isAuthenticated: true,
@@ -24,7 +22,6 @@ export default function (state = initialState, action) {
                 role: payload.role
             };
         case LOGIN_SUCCESS:
-            console.log('3');
             return {
                 ...state,
                 isAuthenticated: true,
@@ -35,10 +32,8 @@ export default function (state = initialState, action) {
         case LOGOUT_SUCCESS:
         case LOGIN_FAIL:
         case LOGOUT_FAIL:
-            console.log('4');
             return state;
         default:
-            console.log('5');
             return state;
     }
 }

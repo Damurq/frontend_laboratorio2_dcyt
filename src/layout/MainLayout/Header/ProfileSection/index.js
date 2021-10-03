@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 // material-ui
@@ -29,7 +29,6 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
-import User1 from 'assets/images/users/user-round.svg';
 
 // style const
 const useStyles = makeStyles((theme) => ({
@@ -110,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 
 // ===========================|| PROFILE MENU ||=========================== //
 
-const ProfileSection = () => {
+const ProfileSection = ({ photo, name, role }) => {
     const classes = useStyles();
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
@@ -149,7 +148,7 @@ const ProfileSection = () => {
                 className={classes.profileChip}
                 icon={
                     <Avatar
-                        src={User1}
+                        src={`${process.env.REACT_APP_API_URL}/media/${photo}`}
                         className={classes.headerAvatar}
                         ref={anchorRef}
                         aria-controls={open ? 'menu-list-grow' : undefined}
@@ -193,11 +192,13 @@ const ProfileSection = () => {
                                             <Grid item className={classes.flex}>
                                                 <Typography variant="h4">Hola, </Typography>
                                                 <Typography component="span" variant="h4" className={classes.name}>
-                                                    User
+                                                    {name}
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
-                                                <Typography variant="subtitle2">Admin</Typography>
+                                                <Typography variant="subtitle2">
+                                                    {role === 'A' ? 'Administrador' : 'Gestor de programas'}
+                                                </Typography>
                                             </Grid>
                                         </Grid>
                                         <Divider />
@@ -246,4 +247,10 @@ const ProfileSection = () => {
     );
 };
 
-export default ProfileSection;
+const mapStateToProps = (state) => ({
+    name: state.auth.name,
+    photo: state.auth.photo,
+    role: state.auth.role
+});
+
+export default connect(mapStateToProps, {})(ProfileSection);

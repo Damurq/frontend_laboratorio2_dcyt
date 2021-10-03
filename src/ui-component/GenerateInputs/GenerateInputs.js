@@ -58,7 +58,7 @@ const GenerateInputs = ({ type, data }) => {
             }
             return (
                 <TextField
-                    id={data.label}
+                    id={data.name}
                     name={data.name}
                     label={data.label}
                     type="number"
@@ -83,11 +83,11 @@ const GenerateInputs = ({ type, data }) => {
             };
             return (
                 <FormControl sx={{ m: 1, width: 200 }}>
-                    <InputLabel id={data.label}>Programs</InputLabel>
+                    <InputLabel id={data.name}>Programs</InputLabel>
                     <Select
                         name={data.name}
-                        labelId={data.label}
-                        id={data.label}
+                        labelId={data.name}
+                        id={data.name}
                         value={program}
                         label={data.label}
                         onChange={handleChange}

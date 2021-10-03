@@ -20,31 +20,10 @@ const config = {
     }
 };
 
-// export const loadUser = () => async (dispatch) => {
-//     try {
-//         const res = await axios.get(`${process.env.REACT_APP_API_URL}/profile/user`, config);
-//         if (res.data.error) {
-//             dispatch({
-//                 type: LOAD_USER_PROFILE_FAIL
-//             });
-//         } else {
-//             dispatch({
-//                 type: LOAD_USER_PROFILE_SUCCESS,
-//                 payload: res.data
-//             });
-//         }
-//     } catch (err) {
-//         dispatch({
-//             type: LOAD_USER_PROFILE_FAIL
-//         });
-//     }
-// };
-
 export const loginUser = (username, password) => async dispatch => {
     const body = JSON.stringify({ username, password });
     try {
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login/`, body, config);
-        console.log(res)
         if (res.status === 200) {
             localStorage.setItem('token', res.data.token);
             dispatch({
@@ -108,33 +87,6 @@ export const checkAuthenticated = () => async dispatch => {
         });
     }
 };
-
-// export const register = (username, password, re_password) => async dispatch => {
-//     const config = {
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json',
-//             'X-CSRFToken': Cookies.get('csrftoken')
-//         }
-//     };
-//     const body = JSON.stringify({ username, password, re_password });
-//     try {
-//         const res = await axios.post(`${process.env.REACT_APP_API_URL}/accounts/register`, body, config);
-//         if (res.data.error) {
-//             dispatch({
-//                 type: REGISTER_FAIL
-//             });
-//         } else {
-//             dispatch({
-//                 type: REGISTER_SUCCESS
-//             });
-//         }
-//     } catch (err) {
-//         dispatch({
-//             type: REGISTER_FAIL
-//         });
-//     }
-// };
 
 export const logout = () => async dispatch => {
     try {

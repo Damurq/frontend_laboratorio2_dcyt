@@ -14,6 +14,7 @@ import { Formik } from 'formik';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { loginUser } from 'store/auth/auth';
+import CSRFToken from 'components/CSRFToken/CSRFToken';
 
 // assets
 import Visibility from '@material-ui/icons/Visibility';
@@ -87,12 +88,10 @@ const FormLogin = ({ loginUser, isAuthenticated, ...others }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         loginUser(username, password);
-        console.log(isAuthenticated);
         if (isAuthenticated) {
             return <Navigate to="/" />;
         }
     };
-    console.log(isAuthenticated);
     if (isAuthenticated) {
         return <Navigate to="/" />;
     }
@@ -112,6 +111,7 @@ const FormLogin = ({ loginUser, isAuthenticated, ...others }) => {
             >
                 {({ errors, handleBlur, touched, values }) => (
                     <form onSubmit={handleSubmit} {...others}>
+                        <CSRFToken />
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} className={classes.loginInput}>
                             <InputLabel htmlFor="username">Email</InputLabel>
                             <OutlinedInput
