@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { useDispatch, useSelector, connect } from 'react-redux';
+import { Outlet, Navigate } from 'react-router-dom';
 
 // material-ui
 import { makeStyles, useTheme } from '@material-ui/styles';
@@ -15,8 +15,9 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Customization from '../Customization';
 import navigation from 'menu-items';
-import { drawerWidth } from 'store/constant';
-import { SET_MENU } from 'store/actions';
+import { drawerWidth } from 'store/theme/constant';
+import { SET_MENU } from 'store/theme/actions';
+import { checkAuthenticated } from 'store/auth/auth';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 
 // ===========================|| MAIN LAYOUT ||=========================== //
 
-const MainLayout = () => {
+const MainLayout = ({ isAuthenticated, checkAuthenticated }) => {
     const classes = useStyles();
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -90,8 +91,13 @@ const MainLayout = () => {
 
     React.useEffect(() => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
+        checkAuthenticated();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDownMd]);
+    }, [matchDownMd, isAuthenticated]);
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <div className={classes.root}>
@@ -130,4 +136,8 @@ const MainLayout = () => {
     );
 };
 
-export default MainLayout;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { checkAuthenticated })(MainLayout);

@@ -7,7 +7,7 @@ import MuiTypography from '@material-ui/core/Typography';
 import SubCard from 'ui-component/cards/SubCard';
 import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
-import { gridSpacing } from 'store/constant';
+import { gridSpacing } from 'store/theme/constant';
 
 // ==============================|| TYPOGRAPHY ||============================== //
 

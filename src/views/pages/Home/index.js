@@ -10,7 +10,7 @@ import TotalOrderLineChartCard from './components/TotalOrderLineChartCard';
 import TotalIncomeDarkCard from './components/TotalIncomeDarkCard';
 import TotalIncomeLightCard from './components/TotalIncomeLightCard';
 import TotalGrowthBarChart from './components/TotalGrowthBarChart';
-import { gridSpacing } from 'store/constant';
+import { gridSpacing } from 'store/theme/constant';
 
 // ===========================|| DEFAULT DASHBOARD ||=========================== //
 

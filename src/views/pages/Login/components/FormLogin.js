@@ -1,23 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector, connect } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
-import {
-    Box,
-    Button,
-    Checkbox,
-    Divider,
-    FormControl,
-    FormHelperText,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Stack,
-    Typography
-} from '@material-ui/core';
+import { Box, Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@material-ui/core';
 
 // third party
 import * as Yup from 'yup';
@@ -26,6 +13,7 @@ import { Formik } from 'formik';
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
+import { loginUser } from 'store/auth/auth';
 
 // assets
 import Visibility from '@material-ui/icons/Visibility';
@@ -72,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 //= ===========================|| FIREBASE - LOGIN ||============================//
 
-const FirebaseLogin = (props, { ...others }) => {
+const FormLogin = ({ loginUser, isAuthenticated, ...others }) => {
     const classes = useStyles();
 
     const customization = useSelector((state) => state.customization);
@@ -86,6 +74,28 @@ const FirebaseLogin = (props, { ...others }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    const [formData, setFormData] = React.useState({
+        username: '',
+        password: ''
+    });
+
+    const { username, password } = formData;
+
+    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    // eslint-disable-next-line consistent-return
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        loginUser(username, password);
+        console.log(isAuthenticated);
+        if (isAuthenticated) {
+            return <Navigate to="/" />;
+        }
+    };
+    console.log(isAuthenticated);
+    if (isAuthenticated) {
+        return <Navigate to="/" />;
+    }
 
     return (
         <>
@@ -99,31 +109,16 @@ const FirebaseLogin = (props, { ...others }) => {
                     email: Yup.string().email('Debe ser un email valido').max(255).required('El email es requerido'),
                     password: Yup.string().max(255).required('La contraseña es requerida')
                 })}
-                onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        if (scriptedRef.current) {
-                            setStatus({ success: true });
-                            setSubmitting(false);
-                        }
-                    } catch (err) {
-                        console.error(err);
-                        if (scriptedRef.current) {
-                            setStatus({ success: false });
-                            setErrors({ submit: err.message });
-                            setSubmitting(false);
-                        }
-                    }
-                }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-                    <form noValidate onSubmit={handleSubmit} {...others}>
+                {({ errors, handleBlur, touched, values }) => (
+                    <form onSubmit={handleSubmit} {...others}>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} className={classes.loginInput}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email</InputLabel>
+                            <InputLabel htmlFor="username">Email</InputLabel>
                             <OutlinedInput
-                                id="outlined-adornment-email-login"
+                                id="username"
                                 type="email"
-                                value={values.email}
-                                name="email"
+                                value={username}
+                                name="username"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 label="Email"
@@ -142,11 +137,11 @@ const FirebaseLogin = (props, { ...others }) => {
                         </FormControl>
 
                         <FormControl fullWidth error={Boolean(touched.password && errors.password)} className={classes.loginInput}>
-                            <InputLabel htmlFor="outlined-adornment-password-login">Contraseña</InputLabel>
+                            <InputLabel htmlFor="password">Contraseña</InputLabel>
                             <OutlinedInput
-                                id="outlined-adornment-password-login"
+                                id="password"
                                 type={showPassword ? 'text' : 'password'}
-                                value={values.password}
+                                value={password}
                                 name="password"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
@@ -192,15 +187,7 @@ const FirebaseLogin = (props, { ...others }) => {
                             }}
                         >
                             <AnimateButton>
-                                <Button
-                                    disableElevation
-                                    disabled={isSubmitting}
-                                    fullWidth
-                                    size="large"
-                                    type="submit"
-                                    variant="contained"
-                                    color="secondary"
-                                >
+                                <Button fullWidth size="large" type="submit" variant="contained" color="secondary">
                                     Iniciar sesión
                                 </Button>
                             </AnimateButton>
@@ -212,4 +199,8 @@ const FirebaseLogin = (props, { ...others }) => {
     );
 };
 
-export default FirebaseLogin;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { loginUser })(FormLogin);

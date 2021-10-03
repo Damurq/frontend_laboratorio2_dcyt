@@ -1,24 +1,21 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 // material-ui
 import { makeStyles, useTheme } from '@material-ui/styles';
 import {
     Avatar,
-    Card,
     CardContent,
     Chip,
     ClickAwayListener,
     Divider,
     Grid,
-    InputAdornment,
     List,
     ListItemIcon,
     ListItemText,
-    OutlinedInput,
     Paper,
     Popper,
-    Switch,
     Typography
 } from '@material-ui/core';
 import ListItemButton from '@material-ui/core/ListItemButton';
@@ -29,10 +26,9 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
 
 // assets
-import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
+import { IconLogout, IconSettings } from '@tabler/icons';
 import User1 from 'assets/images/users/user-round.svg';
 
 // style const
@@ -229,7 +225,13 @@ const ProfileSection = () => {
                                                     <ListItemIcon>
                                                         <IconLogout stroke={1.5} size="1.3rem" />
                                                     </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant="body2">Cerrar sesión</Typography>} />
+                                                    <ListItemText
+                                                        primary={
+                                                            <Typography variant="body2">
+                                                                <Link to="/login">Cerrar sesión</Link>
+                                                            </Typography>
+                                                        }
+                                                    />
                                                 </ListItemButton>
                                             </List>
                                         </PerfectScrollbar>

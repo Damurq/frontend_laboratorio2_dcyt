@@ -54,32 +54,25 @@ const Foam = () => {
         const ctxbg = canvasbg.getContext('2d');
         canvasbg.height = window.innerHeight;
         canvasbg.width = window.innerWidth;
-
         function update() {
             for (let i = aBubbles.length - 1; i >= 0; i--) {
                 aBubbles[i].update();
-    
                 if (!aBubbles[i].life)
                     aBubbles.splice(i, 1);
             }
-    
             for (let i = aBgBubbles.length - 1; i >= 0; i--) {
                 aBgBubbles[i].update();
-    
                 if (!aBgBubbles[i].life)
                     aBgBubbles.splice(i, 1);
             }
-    
             if (aBubbles.length < (window.innerWidth / 4))
                 addBubble();
-    
             if (aBgBubbles.length < (window.innerWidth / 12))
                 addBgBubble();
         }
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctxbg.clearRect(0, 0, canvas.width, canvas.height);
-    
             for (let i = aBgBubbles.length - 1; i >= 0; i--) {
                 aBgBubbles[i].draw(ctxbg);
             }
@@ -87,13 +80,12 @@ const Foam = () => {
                 aBubbles[i].draw(ctx);
             }
         }
-
         function animate() {
             update();
             draw();
             requestAnimationFrame(animate);
         }
-        
+        console.log("canvas")
         window.addEventListener('load', animate);
         window.addEventListener('resize', function () {
             canvas.height = window.innerHeight;
@@ -119,7 +111,7 @@ const Foam = () => {
                     </defs>
                 </svg>
             </div>
-            <footer><span>Created by Michael Montero 2021</span>
+            <footer><span></span>
             </footer>
         </div>
     );

@@ -1,25 +1,32 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@material-ui/core/styles';
-import { Divider, Grid, Stack, Typography, useMediaQuery } from '@material-ui/core';
+import { Grid, Stack, Typography, useMediaQuery } from '@material-ui/core';
 
 // project imports
 import AuthWrapper1 from './components/AuthWrapper1';
 import AuthCardWrapper from './components/AuthCardWrapper';
-import FirebaseLogin from './components/firebase-forms/FirebaseLogin';
+import FormLogin from './components/FormLogin';
 import Logo from 'ui-component/Logo';
 import Foam from 'ui-component/Background/Foam/Foam';
 import AuthFooter from 'ui-component/cards/AuthFooter';
-
-// assets
+import { checkAuthenticated } from 'store/auth/auth';
 
 //= ===============================|| AUTH3 - LOGIN ||================================//
 
-const Login = () => {
+const Login = ({ isAuthenticated, checkAuthenticated }) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
+
+    useEffect(() => {
+        checkAuthenticated();
+    }, [isAuthenticated]);
+    if (isAuthenticated) {
+        return <Navigate to="/" />;
+    }
 
     return (
         <AuthWrapper1>
@@ -63,7 +70,7 @@ const Login = () => {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <FirebaseLogin login={3} />
+                                        <FormLogin login={3} />
                                     </Grid>
                                 </Grid>
                             </AuthCardWrapper>
@@ -78,4 +85,8 @@ const Login = () => {
     );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { checkAuthenticated })(Login);
