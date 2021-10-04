@@ -6,6 +6,7 @@ import {
 import forms from '../../data/forms'
 import GenerateInputs from '../GenerateInputs/GenerateInputs'
 import { requestDB } from '../../utils/requestDB'
+import { request } from '../../utils/fetch/searchData'
 import './ModalForm.css'
 import PropTypes from 'prop-types';
 import CloseIcon from '@material-ui/icons/Close';
@@ -16,15 +17,6 @@ import { lazy } from 'react';
 
 // project imports
 import Loadable from '../../ui-component/Loadable';
-
-// formAdd
-const FormAddProgram = Loadable(lazy(() => import('components/forms/program/FormAdd')));
-const FormAddPensum = Loadable(lazy(() => import('components/forms/pensum/FormAdd')));
-
-// formUpdate
-const FormUpdateProgram = Loadable(lazy(() => import('components/forms/program/FormUpdate')));
-const FormUpdatePensum = Loadable(lazy(() => import('components/forms/pensum/FormUpdate')));
-
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -38,7 +30,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
-
     return (
         <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
             {children}
@@ -77,64 +68,79 @@ const style = {
     p: 4,
 };
 
-const ModalForm = ({ schema, type, pk = null }) => {
-    const [open, setOpen] = useState(false);
-    //const [comboBox, setComboBox] = useState(schema==="program"?true:false);
-    const handleOpen = () => setOpen(true);
+const ModalForm = ({ obj, setOpen, open }) => {
     const handleClose = () => setOpen(false);
-    let form = forms[schema]
-    const jsx = () => {
-        switch (schema) {
-            case "program":
-                return (type === "add") ? <FormAddProgram /> : <FormUpdateProgram pk={pk} />
-            case "pensum":
-                return (type === "add") ? <FormAddPensum /> : <FormUpdatePensum pk={pk} />
-            default:
-                return (type === "add") ? <FormAddProgram /> : <FormUpdateProgram pk={pk} />
-        }
-    }
+    let form = forms[obj.schema]
+    const [values, setvalues] = useState(null)
+
     function handleSubmit(event) {
         event.preventDefault();
-        let url = `${process.env.REACT_APP_API_URL}/api/${schema}`
+        let url = obj.type === "add" ? `${process.env.REACT_APP_API_URL}/api/${obj.schema}/list` : `${process.env.REACT_APP_API_URL}/api/${obj.schema}/detail/${obj.code}`
         let body = {}
-        switch (schema) {
-            case value:
-                
+        switch (obj.schema) {
+            case "pensum":
+                body = {
+                    program_code: program_code.nextSibling.value,
+                    file_pdf: file_pdf.files[0],
+                    description: description.value
+                }
                 break;
-        
+            case "program":
+                body = {
+                    name: name_program.value,
+                    number_semesters: number_semesters
+                }
+                break;
+            case "user":
+                body = obj.type === "add" ? {
+                    email: email.value,
+                    password: password.value,
+                    password_repeat: password_repeat.value,
+                    program_code: program_code.nextSibling.value,
+                    first_name: first_name.value,
+                    last_name: last_name.value,
+                    role: role.nextSibling.value,
+                    address: address.value,
+                    phone: phone.value,
+                    photo: photo.files[0]
+                } :
+                    {
+                        role: role.nextSibling.value,
+                        address: address.value,
+                        phone: phone.value,
+                        photo: photo.files[0]
+                    }
+                break;
             default:
                 break;
         }
-        console.log(program_code.nextSibling.value)
-        console.log(file_pdf.files[0])
-        console.log(description.value)
-        requestDB(method,url,body)
-            .then((response) => {
-                if(response.status === 200){
-                    setChange(change?false:true)
-                }
-                else{
-                }
-        })
-        // let url = "http://127.0.0.1:8000/api/pensum/create/"
-        // fetch(url, {
-        //     method: 'POST',
-        //     headers: {
-        //         "Content-Type": "multipart/form-data",
-        //         "Accept": "application/json",
-        //     },
-        //     body: { description: description.value, file_pdf: file_pdf.files[0], program_code:program_code.nextSibling.value },
-        // }).then((result) => {
-        //     console.log(result)
-        // }).catch((error) => {
-        //     console.log(error)
-        // });
-        // file_pdf = document.querySelector('input[type="file"]').files[0];
+        console.log(body)
+        // requestDB(obj.type === "add" ? "POST" : "PUT", url, body)
+        //     .then((response) => {
+        //         if (response.status === 200) {
+        //             //setChange(change?false:true)
+        //         }
+        //         else {
+        //         }
+        //     })
     }
+
+    useEffect(() => {
+        if (obj.type === "update") {
+            const ac = new AbortController();
+            let url = `${process.env.REACT_APP_API_URL}/api/${obj.schema}/detail/${obj.code}`
+            request(url)
+                .then((response) => {
+                    console.log(response)
+                    setvalues(response)
+                })
+            return () => ac.abort();
+        }
+    }, [])
+
     return (
         <div>
             {String.prototype.toString(form["form"])}
-            <Button onClick={handleOpen} variant="contained" color="success">Añadir</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -153,24 +159,35 @@ const ModalForm = ({ schema, type, pk = null }) => {
                     <DialogContent>
                         {/* {jsx()} */}
                         {<form id="form" onSubmit={handleSubmit} >
-                            {type == "add" && form["form"].filter(objInput => objInput.create).map((input, i) => {
-                                return (<div key={"i" + i} className="input">
+                            {obj.type === "add" && form["form"].filter(objInput => objInput.create).map((input, i) => {
+                                return (<div key={ "i-" + input["data"].name + obj.schema + i} className="input">
                                     <GenerateInputs type={input["type"]} data={input["data"]} />
+                                </div>)
+                            })}
+                            {console.log((obj.type === "update")&&(values!==null))}
+                            {((obj.type === "update")&&(values!==null)) && form["form"].map((input, i) => {
+                                console.log(values[input["data"]["name"]])
+                                return (<div key={ "i-" + input["data"].name + obj.schema +i+i} className="input">
+                                    <GenerateInputs 
+                                        type={input["type"]} 
+                                        data={input["data"]} 
+                                        value={values[input["data"]["name"]]}
+                                        update={input["update"]} 
+                                    />
                                 </div>)
                             })}
                             <Divider />
                             <div className="buttons-group">
-                                {type == "add" &&
-                                    <DialogActions>
-                                        <Stack direction="row" spacing={2}>
-                                            <Button variant="contained" color="error" onClick={handleClose}>
-                                                Cancelar
-                                            </Button>
-                                            <Button variant="contained" type="submit" color="success">
-                                                Añadir
-                                            </Button>
-                                        </Stack>
-                                    </DialogActions>}
+                                <DialogActions>
+                                    <Stack direction="row" spacing={2}>
+                                        <Button variant="contained" color="error" onClick={handleClose}>
+                                            Cancelar
+                                        </Button>
+                                        <Button variant="contained" type="submit" color="success">
+                                            {obj.type === "add" ? "Añadir" : "Actualizar"}
+                                        </Button>
+                                    </Stack>
+                                </DialogActions>
                             </div>
                         </form>}
 

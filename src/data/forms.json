@@ -87,7 +87,7 @@
                 "type":"text",
                 "data":{
                     "label":"Nombre del programa",
-                    "name":"name"
+                    "name":"name_program"
                 },
                 "create":true,
                 "update":true
@@ -123,6 +123,19 @@
                 },
                 "create":false,
                 "update":false
+            },
+            {
+                "type":"combobox",
+                "data":{
+                    "label":"Programa",
+                    "val":[{
+                        "code":0,
+                        "name":"----------------"
+                    }],
+                    "name":"program_code"
+                },
+                "create":true,
+                "update":true
             },
             {
                 "type":"email",
@@ -175,9 +188,13 @@
                 "data":{
                     "label":"Rol",
                     "val":[{
-                        "code":0,
-                        "name":"----"
-                    }]
+                        "code":"A",
+                        "name":"Administrador"
+                    },{
+                        "code":"G",
+                        "name":"Gestro de programas"
+                    }],
+                    "name":"role"
                 },
                 "create":true,
                 "update":true

@@ -11,21 +11,22 @@ import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import DatePicker from '@material-ui/lab/DatePicker';
 import { filterDataTable, request } from '../../utils/fetch/searchData'
 
-const GenerateInputs = ({ type, data }) => {
+const GenerateInputs = ({ type, data, database=null, update=true }) => {
     const [comboBox, setComboBox] = useState(data.val);
 
     useEffect(() => {
         if (type === "combobox") {
             const ac = new AbortController();
-            let url = "http://127.0.0.1:8000" + "/api/" + "program" + "/list/"
-            request(url)
-                .then((response) => {
-                    if (response.length > 0) {
-                        let fdt = filterDataTable(["code", "name"], response);
-                        setComboBox(fdt)
-                        console.log(comboBox)
-                    }
-                })
+            if (data.name=="program_code") {
+                let url = "http://127.0.0.1:8000" + "/api/" + "program" + "/list/"
+                request(url)
+                    .then((response) => {
+                        if (response.results.length > 0) {
+                            let fdt = filterDataTable(["code", "name"], response.results);
+                            setComboBox(fdt)
+                        }
+                    })
+            }
             return () => ac.abort();
         }
     }, []);
@@ -43,6 +44,10 @@ const GenerateInputs = ({ type, data }) => {
                         onChange={(newValue) => {
                             setValue(newValue);
                         }}
+                        defaultValue={ database ? database : value }
+                        InputProps={{
+                            readOnly: !(update),
+                        }}
                         renderInput={(params) => <TextField {...params} />}
                     />
                 </LocalizationProvider>
@@ -54,7 +59,7 @@ const GenerateInputs = ({ type, data }) => {
             //Executes when the value changes
             const handle = (e) => {
                 const newValue = Math.min(Math.max(e.target.value, minValue), maxValue)
-                setNumber(newValue)
+                setNumber(data.name==="number_semesters" ? newValue : e.target.value)
             }
             return (
                 <TextField
@@ -72,8 +77,12 @@ const GenerateInputs = ({ type, data }) => {
                 <TextField
                     helperText=" "
                     name={data.name}
-                    id="demo-helper-text-aligned-no-helper"
+                    id={data.name}
                     label={data.label}
+                    defaultValue={ database ? database : "" }
+                    InputProps={{
+                        readOnly: !(update),
+                    }}
                 />
             );
         case "combobox":
@@ -83,7 +92,7 @@ const GenerateInputs = ({ type, data }) => {
             };
             return (
                 <FormControl sx={{ m: 1, width: 200 }}>
-                    <InputLabel id={data.name}>Programs</InputLabel>
+                    <InputLabel id={data.name}>{data.label}</InputLabel>
                     <Select
                         name={data.name}
                         labelId={data.name}
@@ -114,6 +123,10 @@ const GenerateInputs = ({ type, data }) => {
                 type="email"
                 label={data.label}
                 name={data.name}
+                defaultValue={ database ? database : "" }
+                InputProps={{
+                    readOnly: !(update),
+                }}
             />)
         case "password":
             return (<TextField
@@ -121,6 +134,10 @@ const GenerateInputs = ({ type, data }) => {
                 label={data.label}
                 type="password"
                 autoComplete="current-password"
+                defaultValue={ database ? database : "" }
+                InputProps={{
+                    readOnly: !(update),
+                }}
             />)
         default:
             return (
@@ -128,6 +145,7 @@ const GenerateInputs = ({ type, data }) => {
                     input Error
                 </Typography>
             );
+
     }
 };
 

@@ -17,7 +17,7 @@ function PaperComponent(props) {
     );
 }
 
-export default function DraggableDialog({ title, content, setOpen, open }) {
+export default function DraggableDialog({ info, setOpen, open }) {
     const handleClose = () => {
         setOpen(false);
     };
@@ -26,10 +26,10 @@ export default function DraggableDialog({ title, content, setOpen, open }) {
         <div>
             <Dialog open={open} onClose={handleClose} PaperComponent={PaperComponent} aria-labelledby="draggable-dialog-title">
                 <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                    {title}
+                    {info.title}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>{content}</DialogContentText>
+                    <DialogContentText>{info.content}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
@@ -42,12 +42,7 @@ export default function DraggableDialog({ title, content, setOpen, open }) {
 }
 
 DraggableDialog.propTypes = {
-    title: PropTypes.string,
-    content: PropTypes.string,
+    info: PropTypes.object,
     setOpen: PropTypes.func,
     open: PropTypes.bool
 };
-
-// DraggableDialog.defaultProps = {
-//     open: false
-// };
