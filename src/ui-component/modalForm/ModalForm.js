@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import forms from '../../data/forms'
 import GenerateInputs from '../GenerateInputs/GenerateInputs'
+import { requestDB } from '../../utils/requestDB'
 import './ModalForm.css'
 import PropTypes from 'prop-types';
 import CloseIcon from '@material-ui/icons/Close';
@@ -94,9 +95,27 @@ const ModalForm = ({ schema, type, pk = null }) => {
     }
     function handleSubmit(event) {
         event.preventDefault();
+        let url = `${process.env.REACT_APP_API_URL}/api/${schema}`
+        let body = {}
+        switch (schema) {
+            case value:
+                
+                break;
+        
+            default:
+                break;
+        }
         console.log(program_code.nextSibling.value)
         console.log(file_pdf.files[0])
         console.log(description.value)
+        requestDB(method,url,body)
+            .then((response) => {
+                if(response.status === 200){
+                    setChange(change?false:true)
+                }
+                else{
+                }
+        })
         // let url = "http://127.0.0.1:8000/api/pensum/create/"
         // fetch(url, {
         //     method: 'POST',

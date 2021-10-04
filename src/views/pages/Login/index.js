@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@material-ui/core/styles';
@@ -20,13 +20,14 @@ import { checkAuthenticated } from 'store/auth/auth';
 const Login = ({ isAuthenticated, checkAuthenticated }) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
+    const navegate = useNavigate();
 
     useEffect(() => {
         checkAuthenticated();
-    }, [isAuthenticated]);
-    if (isAuthenticated) {
-        return <Navigate to="/" />;
-    }
+        // if (isAuthenticated) {
+        //     navegate('/', { isLoading: true });
+        // }
+    }, []);
 
     return (
         <AuthWrapper1>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+// import {  } from 'react-router-dom';
 
 // material-ui
 import { makeStyles, useTheme } from '@material-ui/styles';
@@ -26,6 +26,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
+import { logout } from 'store/auth/auth';
 
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
@@ -109,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
 
 // ===========================|| PROFILE MENU ||=========================== //
 
-const ProfileSection = ({ photo, name, role }) => {
+const ProfileSection = ({ logout, photo, name, role }) => {
     const classes = useStyles();
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
@@ -131,6 +132,10 @@ const ProfileSection = ({ photo, name, role }) => {
         }
 
         setOpen(false);
+    };
+
+    const clickLogout = (e) => {
+        logout();
     };
 
     const prevOpen = React.useRef(open);
@@ -228,9 +233,9 @@ const ProfileSection = ({ photo, name, role }) => {
                                                     </ListItemIcon>
                                                     <ListItemText
                                                         primary={
-                                                            <Typography variant="body2">
-                                                                <Link to="/login">Cerrar sesión</Link>
-                                                            </Typography>
+                                                            <button type="button" onClick={clickLogout}>
+                                                                Cerrar sesión
+                                                            </button>
                                                         }
                                                     />
                                                 </ListItemButton>
@@ -253,4 +258,4 @@ const mapStateToProps = (state) => ({
     role: state.auth.role
 });
 
-export default connect(mapStateToProps, {})(ProfileSection);
+export default connect(mapStateToProps, { logout })(ProfileSection);

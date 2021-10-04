@@ -57,9 +57,11 @@ class Pagination extends Component {
   fetchPageNumbers = () => {
     //console.log(document.getElementById("totalRecords"))
     const totalRecords = document.getElementById("totalRecords") !==null ? parseInt(document.getElementById("totalRecords").innerHTML) : this.totalRecords
+    
     this.totalPages = Math.ceil(totalRecords / this.pageLimit);
     //console.log("here")
     //console.log(totalRecords)
+    //console.log(this.pageLimit)
     //console.log(this.totalPages)
     const totalPages =  this.totalPages;
     const currentPage = this.state.currentPage;

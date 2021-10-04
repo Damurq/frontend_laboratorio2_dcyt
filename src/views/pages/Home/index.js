@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 // material-ui
 import { Grid } from '@material-ui/core';
@@ -11,13 +13,19 @@ import TotalIncomeDarkCard from './components/TotalIncomeDarkCard';
 import TotalIncomeLightCard from './components/TotalIncomeLightCard';
 import TotalGrowthBarChart from './components/TotalGrowthBarChart';
 import { gridSpacing } from 'store/theme/constant';
+import { checkAuthenticated } from 'store/auth/auth';
 
 // ===========================|| DEFAULT DASHBOARD ||=========================== //
 
-const Home = () => {
+const Home = ({ checkAuthenticated, isAuthenticated }) => {
     const [isLoading, setLoading] = useState(true);
+    const navegate = useNavigate();
     useEffect(() => {
         setLoading(false);
+        checkAuthenticated();
+        // if (!isAuthenticated) {
+        //     navegate('login', { isLoading: true });
+        // }
     }, []);
 
     return (
@@ -56,4 +64,8 @@ const Home = () => {
     );
 };
 
-export default Home;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { checkAuthenticated })(Home);

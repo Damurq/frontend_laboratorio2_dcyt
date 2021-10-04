@@ -133,6 +133,22 @@
                 "update":false
             },
             {
+                "type":"password",
+                "data":{
+                    "label":"Contraseña"
+                },
+                "create":true,
+                "update":false
+            },
+            {
+                "type":"password",
+                "data":{
+                    "label":"Repita la contraseña"
+                },
+                "create":true,
+                "update":false
+            },
+            {
                 "type":"text",
                 "data":{
                     "label":"first_name"
@@ -159,6 +175,40 @@
                 },
                 "create":true,
                 "update":true
+            },
+            {
+                "type":"text",
+                "data":{
+                    "label":"address"
+                },
+                "create":true,
+                "update":true
+            },
+            {
+                "type":"number",
+                "data":{
+                    "label":"Telefono",
+                    "name":"phone"
+                },
+                "create":true,
+                "update":true
+            },
+            {
+                "type":"file",
+                "data":{
+                    "label":"Foto",
+                    "name":"photo"
+                },
+                "create":true,
+                "update":true
+            },
+            {
+                "type":"text",
+                "data":{
+                    "label":"estado"
+                },
+                "create":false,
+                "update":false
             }
         ]
     }

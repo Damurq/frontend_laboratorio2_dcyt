@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, connect } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -63,10 +63,10 @@ const useStyles = makeStyles((theme) => ({
 
 const FormLogin = ({ loginUser, isAuthenticated, ...others }) => {
     const classes = useStyles();
-
+    // const { isAuthenticated } = props;
     const customization = useSelector((state) => state.customization);
     const scriptedRef = useScriptRef();
-
+    const navegate = useNavigate();
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -87,14 +87,16 @@ const FormLogin = ({ loginUser, isAuthenticated, ...others }) => {
     // eslint-disable-next-line consistent-return
     const handleSubmit = (e) => {
         e.preventDefault();
+        // console.log(username, password);
+        // console.log(loginUser);
         loginUser(username, password);
-        if (isAuthenticated) {
-            return <Navigate to="/" />;
-        }
     };
-    if (isAuthenticated) {
-        return <Navigate to="/" />;
-    }
+
+    React.useEffect(() => {
+        // if (isAuthenticated) {
+        //     navegate('/', { isLoading: true });
+        // }
+    }, [isAuthenticated]);
 
     return (
         <>
@@ -109,9 +111,8 @@ const FormLogin = ({ loginUser, isAuthenticated, ...others }) => {
                     password: Yup.string().max(255).required('La contraseña es requerida')
                 })}
             >
-                {({ errors, handleBlur, touched, values }) => (
+                {({ errors, handleBlur, isSubmitting, touched, values }) => (
                     <form onSubmit={handleSubmit} {...others}>
-                        <CSRFToken />
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} className={classes.loginInput}>
                             <InputLabel htmlFor="username">Email</InputLabel>
                             <OutlinedInput

@@ -50,7 +50,7 @@ export const checkAuthenticated = () => async dispatch => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'X-CSRFToken': Cookies.get('csrftoken'),
-                'Authorization': 'Token '+ token
+                'Authorization': 'Token ' + token
             }
         };
         try {
@@ -80,7 +80,7 @@ export const checkAuthenticated = () => async dispatch => {
             });
         }
     }
-    else{
+    else {
         dispatch({
             type: AUTHENTICATED_FAIL,
             payload: false
@@ -90,13 +90,29 @@ export const checkAuthenticated = () => async dispatch => {
 
 export const logout = () => async dispatch => {
     try {
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/logout`, body, config);
-        if (res.data.success) {
+        const token = localStorage.getItem('token');
+        if (token && token !== '') {
+            const config2 = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                    'Authorization': 'Token ' + token
+                }
+            };
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/logout`, body, config);
             localStorage.removeItem('token');
-            dispatch({
-                type: LOGOUT_SUCCESS
-            });
-        } else {
+            if (res.data.success) {
+                dispatch({
+                    type: LOGOUT_SUCCESS
+                });
+            } else {
+                dispatch({
+                    type: LOGOUT_FAIL
+                });
+            }
+        }
+        else{
             dispatch({
                 type: LOGOUT_FAIL
             });

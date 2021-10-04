@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
-import { Outlet, Navigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 // material-ui
 import { makeStyles, useTheme } from '@material-ui/styles';
@@ -77,11 +77,10 @@ const useStyles = makeStyles((theme) => ({
 
 // ===========================|| MAIN LAYOUT ||=========================== //
 
-const MainLayout = ({ isAuthenticated, checkAuthenticated }) => {
+const MainLayout = () => {
     const classes = useStyles();
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
-
     // Handle left drawer
     const leftDrawerOpened = useSelector((state) => state.customization.opened);
     const dispatch = useDispatch();
@@ -91,13 +90,8 @@ const MainLayout = ({ isAuthenticated, checkAuthenticated }) => {
 
     React.useEffect(() => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
-        // checkAuthenticated();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDownMd, isAuthenticated]);
-
-    if (!isAuthenticated) {
-        return <Navigate to="/login" />;
-    }
+    }, [matchDownMd]);
 
     return (
         <div className={classes.root}>
@@ -136,8 +130,4 @@ const MainLayout = ({ isAuthenticated, checkAuthenticated }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps, { checkAuthenticated })(MainLayout);
+export default MainLayout;
