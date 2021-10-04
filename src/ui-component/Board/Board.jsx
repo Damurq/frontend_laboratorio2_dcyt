@@ -5,7 +5,7 @@ import { requestDB } from '../../utils/requestDB'
 import { useEffect, useState } from 'react'
 import schemas from '../../data/filterData.json'
 import Pagination from '../Pagination/Pagination'
-import DraggableDialog from '../DraggableDialog/DraggableDialog'
+import DraggableDialog from '../Alerts/DraggableDialog'
 import React from 'react'
 import { IconEdit, IconTrash, IconRefresh } from '@tabler/icons';
 import ModalForm from '../../ui-component/modalForm/ModalForm'
@@ -26,6 +26,8 @@ const Board = ({ schema, urlBase }) => {
     const [pageLimit, setPageLimit] = useState(10)
     //otras
     const [change, setChange] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [alert, setAlert] = useState({title:"",content:""})
 
     const onPageChanged = data => {
         if (totalData.length === 0) {
@@ -51,12 +53,14 @@ const Board = ({ schema, urlBase }) => {
     }
 
     const onDelete = (event,code) => {
-        console.log(code);
         let url = `${process.env.REACT_APP_API_URL}/api/${schema}/detail/${code}`
         requestDB("DELETE",url)
             .then((response) => {
                 if(response.status === 200){
                     setChange(change?false:true)
+                    setAlert({["title"] : "Exito",["content"] : "La operación se completo satisfactoriamente"}) 
+                    console.log(alert)
+                    setOpen(true)
                 }
                 else{
                 }
@@ -154,11 +158,11 @@ const Board = ({ schema, urlBase }) => {
                                     })}
                                 </tbody>
                             </table>
+                            {open && <DraggableDialog title={alert.title} content={alert.content} setOpen={setOpen} open={open}/>}
 
                         </div>
                         <div className=''>
                             <div id='totalRecords' className='none' name={totalRecords} >{totalRecords}</div>
-
                             {totalRecords > 10 ?
                                 <Pagination totalRecords={totalRecords} pageLimit={pageLimit} pageNeighbours={1} onPageChanged={onPageChanged} />
                                 : <p></p>

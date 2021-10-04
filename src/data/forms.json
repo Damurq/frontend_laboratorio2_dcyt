@@ -127,7 +127,8 @@
             {
                 "type":"email",
                 "data":{
-                    "label":"Email"
+                    "label":"Email",
+                    "name":"email"
                 },
                 "create":true,
                 "update":false
@@ -135,7 +136,8 @@
             {
                 "type":"password",
                 "data":{
-                    "label":"Contraseña"
+                    "label":"Contraseña",
+                    "name":"password"
                 },
                 "create":true,
                 "update":false
@@ -143,7 +145,9 @@
             {
                 "type":"password",
                 "data":{
-                    "label":"Repita la contraseña"
+                    "label":"Repita la contraseña",
+                    "name":"password_repeat"
+
                 },
                 "create":true,
                 "update":false
@@ -151,7 +155,8 @@
             {
                 "type":"text",
                 "data":{
-                    "label":"first_name"
+                    "label":"Nombre",
+                    "name":"first_name"
                 },
                 "create":true,
                 "update":false
@@ -159,7 +164,8 @@
             {
                 "type":"text",
                 "data":{
-                    "label":"last_name"
+                    "label":"Apellido",
+                    "name":"last_name"
                 },
                 "create":true,
                 "update":false
@@ -179,7 +185,8 @@
             {
                 "type":"text",
                 "data":{
-                    "label":"address"
+                    "label":"Dirección",
+                    "name":"address"
                 },
                 "create":true,
                 "update":true
@@ -205,7 +212,8 @@
             {
                 "type":"text",
                 "data":{
-                    "label":"estado"
+                    "label":"estado",
+                    "name":"status"
                 },
                 "create":false,
                 "update":false

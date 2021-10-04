@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 // material-ui
 import { Typography } from '@material-ui/core';
 
-import {TextField,FormControl,InputLabel,Select,MenuItem,FormHelperText,Button } from '@material-ui/core';
+import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Button } from '@material-ui/core';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import DatePicker from '@material-ui/lab/DatePicker';
@@ -15,13 +15,13 @@ const GenerateInputs = ({ type, data }) => {
     const [comboBox, setComboBox] = useState(data.val);
 
     useEffect(() => {
-        if (type==="combobox"){
+        if (type === "combobox") {
             const ac = new AbortController();
-            let url = "http://127.0.0.1:8000" + "/api/" + "program"  + "/list/"
+            let url = "http://127.0.0.1:8000" + "/api/" + "program" + "/list/"
             request(url)
                 .then((response) => {
-                    if (response.length > 0){
-                        let fdt = filterDataTable(["code","name"], response);
+                    if (response.length > 0) {
+                        let fdt = filterDataTable(["code", "name"], response);
                         setComboBox(fdt)
                         console.log(comboBox)
                     }
@@ -65,7 +65,7 @@ const GenerateInputs = ({ type, data }) => {
                     variant="outlined"
                     onChange={e => handle(e)}
                     value={number}
-                    />
+                />
             );
         case "text":
             return (
@@ -92,7 +92,7 @@ const GenerateInputs = ({ type, data }) => {
                         label={data.label}
                         onChange={handleChange}
                     >
-                        {comboBox.map((obj)=>{return(<MenuItem value={obj.code}>{obj.name}</MenuItem>)})}
+                        {comboBox.map((obj) => { return (<MenuItem value={obj.code}>{obj.name}</MenuItem>) })}
                     </Select>
                     <FormHelperText>Required</FormHelperText>
                 </FormControl>
@@ -101,29 +101,26 @@ const GenerateInputs = ({ type, data }) => {
             return (<Button
                 variant="contained"
                 component="label"
-              >
+            >
                 Upload File
                 <input
-                  type="file"
-                  hidden
+                    type="file"
+                    hidden
                 />
-              </Button>);
+            </Button>);
         case "email":
-            const changeValue = (e, type) =>{
-                const value = e.target.value;
-                const nextState = {};
-                nextState[type] = value;
-                this.setState(nextState, () => {
-                    this.isDisabled()
-                });
-            }
-            return(<TextField
-                hintText="Email"
-                floatingLabelText="Email"
+            return (<TextField
+                id={data.name}
                 type="email"
-                errorText={this.state.email_error_text}
+                label={data.label}
                 name={data.name}
-                onChange={e => changeValue(e, 'email')} 
+            />)
+        case "password":
+            return (<TextField
+                id={data.name}
+                label={data.label}
+                type="password"
+                autoComplete="current-password"
             />)
         default:
             return (
