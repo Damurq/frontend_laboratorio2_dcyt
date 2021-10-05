@@ -6,7 +6,8 @@ const requestObj = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': 'Token '+ localStorage.getItem('token')
-    }
+    },
+    body:{},
 }
 
 
@@ -19,7 +20,9 @@ async function requestDB(method, url, body = null) {
     try {
         let obj = requestObj
         obj["method"] = method
-        const response = await body ? fetch(url,obj) : fetch(url,obj,body)
+        obj["body"] = JSON.stringify(body)
+        console.log(obj)
+        const response = await body ? fetch(url,obj) : fetch(url,obj)
         console.log("respuesta del servidor",response)
         return response
     }

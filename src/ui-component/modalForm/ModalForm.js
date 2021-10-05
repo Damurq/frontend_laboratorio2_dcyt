@@ -75,7 +75,7 @@ const ModalForm = ({ obj, setOpen, open }) => {
 
     function handleSubmit(event) {
         event.preventDefault();
-        let url = obj.type === "add" ? `${process.env.REACT_APP_API_URL}/api/${obj.schema}/list` : `${process.env.REACT_APP_API_URL}/api/${obj.schema}/detail/${obj.code}`
+        let url = obj.type === "add" ? `${process.env.REACT_APP_API_URL}/api/${obj.schema}/list/` : `${process.env.REACT_APP_API_URL}/api/${obj.schema}/detail/${obj.code}/`
         let body = {}
         switch (obj.schema) {
             case "pensum":
