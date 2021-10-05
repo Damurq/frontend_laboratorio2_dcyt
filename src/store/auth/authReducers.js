@@ -1,10 +1,15 @@
 import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, AUTHENTICATED_SUCCESS, AUTHENTICATED_FAIL } from './actions';
 
+const token = localStorage.getItem('token');
+const name = localStorage.getItem('name');
+const photo = localStorage.getItem('photo');
+const role = localStorage.getItem('role');
+
 const initialState = {
-    isAuthenticated: null,
-    name: '',
-    photo: '',
-    role: ''
+    isAuthenticated: !!(token && token !== ''),
+    name: name || '',
+    photo: photo || '',
+    role: role || ''
 };
 
 export default function (state = initialState, action) {

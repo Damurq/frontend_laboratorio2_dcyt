@@ -65,7 +65,7 @@ const FormLogin = ({ loginUser, isAuthenticated, checkAuthenticated, ...others }
     const classes = useStyles();
     const customization = useSelector((state) => state.customization);
     const scriptedRef = useScriptRef();
-    const navegate = useNavigate();
+    // const navegate = useNavigate();
     const [showPassword, setShowPassword] = React.useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -88,13 +88,6 @@ const FormLogin = ({ loginUser, isAuthenticated, checkAuthenticated, ...others }
         e.preventDefault();
         loginUser(username, password);
     };
-
-    React.useEffect(() => {
-        checkAuthenticated();
-        if (isAuthenticated) {
-            navegate('/');
-        }
-    }, [isAuthenticated]);
 
     return (
         <>

@@ -26,6 +26,9 @@ export const loginUser = (username, password) => async dispatch => {
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login/`, body, config);
         if (res.status === 200) {
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('name', res.data.name);
+            localStorage.setItem('role', res.data.role);
+            localStorage.setItem('photo', res.data.photo);
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: res.data

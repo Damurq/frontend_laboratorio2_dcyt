@@ -110,10 +110,14 @@ const useStyles = makeStyles((theme) => ({
 
 // ===========================|| PROFILE MENU ||=========================== //
 
-const ProfileSection = ({ logout, photo, name, role }) => {
+const ProfileSection = ({ logout }) => {
     const classes = useStyles();
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
+
+    const name = localStorage.getItem('name');
+    const photo = localStorage.getItem('photo');
+    const role = localStorage.getItem('role');
 
     const [selectedIndex] = React.useState(1);
 
@@ -135,7 +139,6 @@ const ProfileSection = ({ logout, photo, name, role }) => {
     };
 
     const clickLogout = (e) => {
-        console.log('salir');
         logout();
     };
 
@@ -253,10 +256,6 @@ const ProfileSection = ({ logout, photo, name, role }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    name: state.auth.name,
-    photo: state.auth.photo,
-    role: state.auth.role
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, { logout })(ProfileSection);
