@@ -135,6 +135,7 @@ const ProfileSection = ({ logout, photo, name, role }) => {
     };
 
     const clickLogout = (e) => {
+        console.log('salir');
         logout();
     };
 
@@ -226,7 +227,7 @@ const ProfileSection = ({ logout, photo, name, role }) => {
                                                     className={classes.listItem}
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 4}
-                                                    onClick={handleLogout}
+                                                    onClick={clickLogout}
                                                 >
                                                     <ListItemIcon>
                                                         <IconLogout stroke={1.5} size="1.3rem" />

@@ -113,7 +113,7 @@
         ]
     },
     "user":{
-        "titles":"Usuarios",
+        "title":"Usuarios",
         "form":[
             {
                 "type":"number",

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
 // material-ui
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Grid, Typography } from '@material-ui/core';
@@ -8,6 +9,7 @@ import { Avatar, Grid, Typography } from '@material-ui/core';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
+import { checkAuthenticated } from 'store/auth/auth';
 
 // assets
 import EarningIcon from 'assets/images/icons/earning.svg';
@@ -95,8 +97,9 @@ const useStyles = makeStyles((theme) => ({
 
 //= ==========================|| DASHBOARD DEFAULT - EARNING CARD ||===========================//
 
-const EarningCard = ({ isLoading }) => {
+const EarningCard = ({ checkAuthenticated, isAuthenticated, isLoading }) => {
     const classes = useStyles();
+    const navegate = useNavigate();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -107,6 +110,13 @@ const EarningCard = ({ isLoading }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    React.useEffect(() => {
+        checkAuthenticated();
+        if (!isAuthenticated) {
+            navegate('/login', { isLoading: true });
+        }
+    }, [checkAuthenticated, isAuthenticated]);
 
     return (
         <>
@@ -168,7 +178,13 @@ const EarningCard = ({ isLoading }) => {
 };
 
 EarningCard.propTypes = {
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
+    checkAuthenticated: PropTypes.func
 };
 
-export default EarningCard;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { checkAuthenticated })(EarningCard);

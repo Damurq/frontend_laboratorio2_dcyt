@@ -20,12 +20,12 @@ import { checkAuthenticated } from 'store/auth/auth';
 const Login = ({ isAuthenticated, checkAuthenticated }) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
-    const navegate = useNavigate();
+    // const navegate = useNavigate();
 
     useEffect(() => {
-        checkAuthenticated();
+        // checkAuthenticated();
         // if (isAuthenticated) {
-        //     navegate('/', { isLoading: true });
+        //     navegate('/');
         // }
     }, []);
 

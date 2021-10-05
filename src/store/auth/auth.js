@@ -96,12 +96,11 @@ export const logout = () => async dispatch => {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': Cookies.get('csrftoken'),
                     'Authorization': 'Token ' + token
                 }
             };
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/logout`, body, config);
             localStorage.removeItem('token');
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/logout`, config);
             if (res.data.success) {
                 dispatch({
                     type: LOGOUT_SUCCESS

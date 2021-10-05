@@ -32,16 +32,14 @@ const Board = ({ schema }) => {
     const [open, setOpen] = useState(false);
     const [openAddUpd, setOpenAddUpd,] = useState(false);
     const [alert, setAlert] = useState({ title: "", content: "" })
-    const [objModal, setObjModal] = useState({ schema: "", type: "", code:null })
+    const [objModal, setObjModal] = useState({ schema: "", type: "", code: null })
 
     const onPageChanged = data => {
         if (totalData.length === 0) {
-            //console.log(data)
             setCurrentPage(data.currentPage);
             let url = ((data.currentPage === 1) || (data.currentPage === undefined)) ? `${process.env.REACT_APP_API_URL}/api/${schema}/list` : `${process.env.REACT_APP_API_URL}/api/${schema}/list/?page=` + data.currentPage
             request(url)
                 .then((response) => {
-                    //console.log(response,2)
                     setTotalRecords(response['count']);
                     if (response.results.length > 0) {
                         setPageLimit(response.results.length);
@@ -57,8 +55,8 @@ const Board = ({ schema }) => {
         }
     }
 
-    const onModal = (event, type, code=null) => {
-        setObjModal({ ["schema"]: schema, ["type"]: type, ["code"]:code })
+    const onModal = (event, type, code = null) => {
+        setObjModal({ ["schema"]: schema, ["type"]: type, ["code"]: code })
         setOpenAddUpd(true)
     }
 
@@ -111,8 +109,8 @@ const Board = ({ schema }) => {
             <div id='board' className='board'>
                 <div className="header-content-section">
                     <h2 className="title-section">{fomrs.title}</h2>
-                    <Button onClick={(e) => onModal(e, "add")}  variant="contained" color="success">Añadir</Button>
-                    {openAddUpd && <ModalForm obj={objModal} type="add" setOpen={setOpenAddUpd} open={openAddUpd}/>}
+                    <Button onClick={(e) => onModal(e, "add")} variant="contained" color="success">Añadir</Button>
+                    {openAddUpd && <ModalForm obj={objModal} type="add" setOpen={setOpenAddUpd} open={openAddUpd} />}
                 </div>
                 {data.length > 0 ?
                     (<React.Fragment>
@@ -140,6 +138,15 @@ const Board = ({ schema }) => {
                                                                     <img className="user-perfile__img" src={process.env.REACT_APP_API_URL + obj[camp]} alt={obj["first_name"] + obj["last_name"]} />
                                                                 </div>
                                                             </td>)
+                                                        case "file_pdf":
+                                                            return (<td key={'camp--' + ndx2 + camp}>
+                                                                <Button
+                                                                    variant="contained"
+                                                                    component="label"
+                                                                >
+                                                                    <a href={process.env.REACT_APP_API_URL + obj[camp]} className="button--link" target="_blank" rel="noopener noreferrer">Ver</a>
+                                                                </Button>
+                                                            </td>)
                                                         case "is_active":
                                                             status = !status ? "is_active" : status
                                                         case "status":
@@ -162,7 +169,7 @@ const Board = ({ schema }) => {
                                                             return <td key={'camp--' + ndx2 + camp}>{obj[camp]}</td>;
                                                     }
                                                 })}
-                                                <td><button onClick={(e) => onModal(e, "update" ,obj["code"])} className="btn--circle" id={obj["code"] + "-update"}>
+                                                <td><button onClick={(e) => onModal(e, "update", obj["code"])} className="btn--circle" id={obj["code"] + "-update"}>
                                                     <IconEdit />
                                                 </button></td>
                                                 <td><button onClick={(e) => onDelete(e, obj["code"])} className="btn--circle" id={obj["code"] + "-changeStatus"}>

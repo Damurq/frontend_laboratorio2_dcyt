@@ -1,10 +1,11 @@
 {
     "pensum":{
-        "data":["code","date_issue","expiration_date","is_active"],
+        "data":["code","date_issue","expiration_date","file_pdf","is_active"],
         "labels":{
             "code":"Codigo",
             "date_issue":"Fecha de emisión",
             "expiration_date":"Fecha final",
+            "file_pdf": "PDF",
             "is_active":"Estado"
         },
         "ignore":[]

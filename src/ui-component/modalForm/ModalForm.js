@@ -80,7 +80,7 @@ const ModalForm = ({ obj, setOpen, open }) => {
         switch (obj.schema) {
             case "pensum":
                 body = {
-                    program_code: program_code.nextSibling.value,
+                    program_code: program_code[1].nextSibling.value,
                     file_pdf: file_pdf.files[0],
                     description: description.value
                 }
@@ -88,7 +88,7 @@ const ModalForm = ({ obj, setOpen, open }) => {
             case "program":
                 body = {
                     name: name_program.value,
-                    number_semesters: number_semesters
+                    number_semesters: number_semesters.value
                 }
                 break;
             case "user":
@@ -96,16 +96,16 @@ const ModalForm = ({ obj, setOpen, open }) => {
                     email: email.value,
                     password: password.value,
                     password_repeat: password_repeat.value,
-                    program_code: program_code.nextSibling.value,
+                    program_code: program_code[1].nextSibling.value,
                     first_name: first_name.value,
                     last_name: last_name.value,
-                    role: role.nextSibling.value,
+                    role: role[1].nextSibling.value,
                     address: address.value,
                     phone: phone.value,
                     photo: photo.files[0]
                 } :
                     {
-                        role: role.nextSibling.value,
+                        role: role[1].nextSibling.value,
                         address: address.value,
                         phone: phone.value,
                         photo: photo.files[0]
@@ -115,14 +115,14 @@ const ModalForm = ({ obj, setOpen, open }) => {
                 break;
         }
         console.log(body)
-        // requestDB(obj.type === "add" ? "POST" : "PUT", url, body)
-        //     .then((response) => {
-        //         if (response.status === 200) {
-        //             //setChange(change?false:true)
-        //         }
-        //         else {
-        //         }
-        //     })
+        requestDB(obj.type === "add" ? "POST" : "PUT", url, body)
+            .then((response) => {
+                if (response.status === 200) {
+                    //setChange(change?false:true)
+                }
+                else {
+                }
+            })
     }
 
     useEffect(() => {
@@ -131,8 +131,8 @@ const ModalForm = ({ obj, setOpen, open }) => {
             let url = `${process.env.REACT_APP_API_URL}/api/${obj.schema}/detail/${obj.code}`
             request(url)
                 .then((response) => {
-                    console.log(response)
                     setvalues(response)
+                    setOpen(true)
                 })
             return () => ac.abort();
         }
@@ -159,23 +159,25 @@ const ModalForm = ({ obj, setOpen, open }) => {
                     <DialogContent>
                         {/* {jsx()} */}
                         {<form id="form" onSubmit={handleSubmit} >
-                            {obj.type === "add" && form["form"].filter(objInput => objInput.create).map((input, i) => {
-                                return (<div key={ "i-" + input["data"].name + obj.schema + i} className="input">
-                                    <GenerateInputs type={input["type"]} data={input["data"]} />
-                                </div>)
-                            })}
-                            {console.log((obj.type === "update")&&(values!==null))}
-                            {((obj.type === "update")&&(values!==null)) && form["form"].map((input, i) => {
-                                console.log(values[input["data"]["name"]])
-                                return (<div key={ "i-" + input["data"].name + obj.schema +i+i} className="input">
-                                    <GenerateInputs 
-                                        type={input["type"]} 
-                                        data={input["data"]} 
-                                        value={values[input["data"]["name"]]}
-                                        update={input["update"]} 
-                                    />
-                                </div>)
-                            })}
+                            <div className="modal-form">
+                                {obj.type === "add" && form["form"].filter(objInput => objInput.create).map((input, i) => {
+                                    return (<div key={"i-" + input["data"].name + obj.schema + i} className="input">
+                                        <GenerateInputs type={input["type"]} data={input["data"]} />
+                                    </div>)
+                                })}
+                                {console.log((obj.type === "update") && (values !== null))}
+                                {((obj.type === "update") && (values !== null)) && form["form"].map((input, i) => {
+                                    let currentTag = input["data"]["name"]
+                                    return (<div key={"input-" + input["data"].name + obj.schema} className="input">
+                                        <GenerateInputs
+                                            type={input["type"]}
+                                            data={input["data"]}
+                                            database={values[currentTag === "name_program" ? "name" : currentTag]}
+                                            update={input["update"]}
+                                        />
+                                    </div>)
+                                })}
+                            </div>
                             <Divider />
                             <div className="buttons-group">
                                 <DialogActions>

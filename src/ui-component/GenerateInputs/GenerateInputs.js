@@ -11,13 +11,13 @@ import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
 import DatePicker from '@material-ui/lab/DatePicker';
 import { filterDataTable, request } from '../../utils/fetch/searchData'
 
-const GenerateInputs = ({ type, data, database=null, update=true }) => {
+const GenerateInputs = ({ type, data, database = null, update = true }) => {
     const [comboBox, setComboBox] = useState(data.val);
 
     useEffect(() => {
         if (type === "combobox") {
             const ac = new AbortController();
-            if (data.name=="program_code") {
+            if (data.name == "program_code") {
                 let url = "http://127.0.0.1:8000" + "/api/" + "program" + "/list/"
                 request(url)
                     .then((response) => {
@@ -33,7 +33,7 @@ const GenerateInputs = ({ type, data, database=null, update=true }) => {
 
     switch (type) {
         case 'date':
-            const [value, setValue] = useState(null);
+            const [value, setValue] = useState(database);
             return (
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
@@ -44,22 +44,21 @@ const GenerateInputs = ({ type, data, database=null, update=true }) => {
                         onChange={(newValue) => {
                             setValue(newValue);
                         }}
-                        defaultValue={ database ? database : value }
-                        InputProps={{
-                            readOnly: !(update),
-                        }}
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => <TextField {...params}
+                            InputProps={{
+                                readOnly: !(update),
+                            }} />}
                     />
                 </LocalizationProvider>
             );
         case 'number':
             const minValue = 0  //Or whichever number you want
             const maxValue = 10
-            const [number, setNumber] = useState(0);
+            const [number, setNumber] = useState(database ? database : 0);
             //Executes when the value changes
             const handle = (e) => {
                 const newValue = Math.min(Math.max(e.target.value, minValue), maxValue)
-                setNumber(data.name==="number_semesters" ? newValue : e.target.value)
+                setNumber(data.name === "number_semesters" ? newValue : e.target.value)
             }
             return (
                 <TextField
@@ -70,16 +69,20 @@ const GenerateInputs = ({ type, data, database=null, update=true }) => {
                     variant="outlined"
                     onChange={e => handle(e)}
                     value={number}
+                    InputProps={{
+                        readOnly: !(update),
+                    }}
                 />
             );
         case "text":
+            database = ((data.name === "status") || (data.name === "is_active")) ? database ? "Activo" : "Inactivo" : database
             return (
                 <TextField
                     helperText=" "
                     name={data.name}
                     id={data.name}
                     label={data.label}
-                    defaultValue={ database ? database : "" }
+                    defaultValue={database ? database : ""}
                     InputProps={{
                         readOnly: !(update),
                     }}
@@ -95,15 +98,13 @@ const GenerateInputs = ({ type, data, database=null, update=true }) => {
                     <InputLabel id={data.name}>{data.label}</InputLabel>
                     <Select
                         name={data.name}
-                        labelId={data.name}
                         id={data.name}
-                        value={program}
+                        value={database ? database : program}
                         label={data.label}
                         onChange={handleChange}
                     >
-                        {comboBox.map((obj) => { return (<MenuItem value={obj.code}>{obj.name}</MenuItem>) })}
+                        {comboBox.map((obj, i) => { return (<MenuItem key={"combobox-" + data.name + i} value={obj.code}>{obj.name}</MenuItem>) })}
                     </Select>
-                    <FormHelperText>Required</FormHelperText>
                 </FormControl>
             );
         case "file":
@@ -111,8 +112,9 @@ const GenerateInputs = ({ type, data, database=null, update=true }) => {
                 variant="contained"
                 component="label"
             >
-                Upload File
+               { type ==="add" ? "Subir ":"Actualizar " }{ data.label }
                 <input
+                    id={data.name}
                     type="file"
                     hidden
                 />
@@ -123,7 +125,7 @@ const GenerateInputs = ({ type, data, database=null, update=true }) => {
                 type="email"
                 label={data.label}
                 name={data.name}
-                defaultValue={ database ? database : "" }
+                defaultValue={database ? database : ""}
                 InputProps={{
                     readOnly: !(update),
                 }}
@@ -134,7 +136,7 @@ const GenerateInputs = ({ type, data, database=null, update=true }) => {
                 label={data.label}
                 type="password"
                 autoComplete="current-password"
-                defaultValue={ database ? database : "" }
+                defaultValue={database ? database : ""}
                 InputProps={{
                     readOnly: !(update),
                 }}

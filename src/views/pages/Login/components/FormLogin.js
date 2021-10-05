@@ -13,7 +13,7 @@ import { Formik } from 'formik';
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import { loginUser } from 'store/auth/auth';
+import { loginUser, checkAuthenticated } from 'store/auth/auth';
 import CSRFToken from 'components/CSRFToken/CSRFToken';
 
 // assets
@@ -61,9 +61,8 @@ const useStyles = makeStyles((theme) => ({
 
 //= ===========================|| FIREBASE - LOGIN ||============================//
 
-const FormLogin = ({ loginUser, isAuthenticated, ...others }) => {
+const FormLogin = ({ loginUser, isAuthenticated, checkAuthenticated, ...others }) => {
     const classes = useStyles();
-    // const { isAuthenticated } = props;
     const customization = useSelector((state) => state.customization);
     const scriptedRef = useScriptRef();
     const navegate = useNavigate();
@@ -87,15 +86,14 @@ const FormLogin = ({ loginUser, isAuthenticated, ...others }) => {
     // eslint-disable-next-line consistent-return
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(username, password);
-        // console.log(loginUser);
         loginUser(username, password);
     };
 
     React.useEffect(() => {
-        // if (isAuthenticated) {
-        //     navegate('/', { isLoading: true });
-        // }
+        checkAuthenticated();
+        if (isAuthenticated) {
+            navegate('/');
+        }
     }, [isAuthenticated]);
 
     return (
@@ -204,4 +202,4 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, { loginUser })(FormLogin);
+export default connect(mapStateToProps, { loginUser, checkAuthenticated })(FormLogin);
