@@ -40,6 +40,14 @@ const other = {
             url: '/user',
             icon: icons.IconUsers,
             breadcrumbs: false
+        },
+        {
+            id: 'reportes',
+            title: 'Reportes',
+            type: 'item',
+            url: '/report/1',
+            icon: icons.IconUsers,
+            breadcrumbs: false
         }
     ]
 };

@@ -103,6 +103,9 @@ export const logout = () => async dispatch => {
                 }
             };
             localStorage.removeItem('token');
+            localStorage.removeItem('name');
+            localStorage.removeItem('role');
+            localStorage.removeItem('photo');
             const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/logout`, config);
             if (res.data.success) {
                 dispatch({

@@ -37,7 +37,13 @@ export default function (state = initialState, action) {
         case LOGOUT_SUCCESS:
         case LOGIN_FAIL:
         case LOGOUT_FAIL:
-            return state;
+            return {
+                ...state,
+                isAuthenticated: false,
+                name: '',
+                photo: '',
+                role: ''
+            };
         default:
             return state;
     }

@@ -1,0 +1,13 @@
+{
+    "1":{
+        "base":{
+            "pathBase":"program/list",
+            "labels":["code"]
+        },
+        "pathReport":"program/numberpensum",
+        "fields":{
+            "name_Pro":"Nombre del programa",
+            "count":"Cantidad de pensums"
+        }
+    }
+}

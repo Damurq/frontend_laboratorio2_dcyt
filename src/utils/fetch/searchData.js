@@ -89,7 +89,7 @@ async function getAll(urlBase = "", schema = "", labels) {
     let next = typeof urlBase === "string" ? urlBase + schema : null
     while (next !== null) {
         let data = await request(next)
-        next = data.info.next
+        next = data.next
         info.push(...filterDataTable(labels, data.results));
     }
     return info;
