@@ -141,7 +141,7 @@
                 "type":"email",
                 "data":{
                     "label":"Email",
-                    "name":"email"
+                    "name":"username"
                 },
                 "create":true,
                 "update":false
@@ -160,7 +160,6 @@
                 "data":{
                     "label":"Repita la contraseña",
                     "name":"password_repeat"
-
                 },
                 "create":true,
                 "update":false
@@ -230,6 +229,47 @@
                 "type":"text",
                 "data":{
                     "label":"estado",
+                    "name":"status"
+                },
+                "create":false,
+                "update":false
+            }
+        ]
+    },
+    "commission":{
+        "title":"Comisión",
+        "form":[
+            {
+                "type":"number",
+                "data":{
+                    "label":"Codigo",
+                    "name":"code"
+                },
+                "create":false,
+                "update":false
+            },
+            {
+                "type":"text",
+                "data":{
+                    "label":"Nombre de la comisión",
+                    "name":"name_commission"
+                },
+                "create":true,
+                "update":true
+            },
+            {
+                "type":"text",
+                "data":{
+                    "label":"Descripción",
+                    "name":"description"
+                },
+                "create":true,
+                "update":true
+            },
+            {
+                "type":"text",
+                "data":{
+                    "label":"Estado",
                     "name":"status"
                 },
                 "create":false,

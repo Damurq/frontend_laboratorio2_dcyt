@@ -4,11 +4,9 @@ import { useEffect, useState } from 'react'
 
 // material-ui
 import { Typography } from '@material-ui/core';
-
 import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Button } from '@material-ui/core';
+import { DatePicker, LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import LocalizationProvider from '@material-ui/lab/LocalizationProvider';
-import DatePicker from '@material-ui/lab/DatePicker';
 import { filterDataTable, request } from '../../utils/fetch/searchData'
 
 const GenerateInputs = ({ type, data, database = null, update = true }) => {
@@ -33,8 +31,8 @@ const GenerateInputs = ({ type, data, database = null, update = true }) => {
 
     switch (type) {
         case 'date':
-            const [value, setValue] = useState(database);
-            return (
+            const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
+            return (!!(update) ? 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
                         name={data.name}
@@ -45,11 +43,19 @@ const GenerateInputs = ({ type, data, database = null, update = true }) => {
                             setValue(newValue);
                         }}
                         renderInput={(params) => <TextField {...params}
-                            InputProps={{
-                                readOnly: !(update),
-                            }} />}
+                            />}
                     />
-                </LocalizationProvider>
+                </LocalizationProvider> : 
+                <TextField
+                    helperText=" "
+                    name={data.name}
+                    id={data.name}
+                    label={data.label}
+                    defaultValue={database ? database : ""}
+                    InputProps={{
+                        readOnly: !(update),
+                    }}
+                />
             );
         case 'number':
             const minValue = 0  //Or whichever number you want
@@ -93,7 +99,7 @@ const GenerateInputs = ({ type, data, database = null, update = true }) => {
             const handleChange = (event) => {
                 setProgram(event.target.value);
             };
-            return (
+            return ( 
                 <FormControl sx={{ m: 1, width: 200 }}>
                     <InputLabel id={data.name}>{data.label}</InputLabel>
                     <Select
@@ -112,7 +118,7 @@ const GenerateInputs = ({ type, data, database = null, update = true }) => {
                 variant="contained"
                 component="label"
             >
-               { type ==="add" ? "Subir ":"Actualizar " }{ data.label }
+               { !(database) ? "Subir ":"Actualizar " }{ data.label }
                 <input
                     id={data.name}
                     type="file"

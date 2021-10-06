@@ -1,22 +1,17 @@
 /* eslint-disable */
-import * as React from 'react';
-import {
-    Button, Modal, Divider, Dialog, DialogTitle, IconButton, DialogActions, DialogContent, Stack
-} from '@material-ui/core';
-import forms from '../../data/forms'
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import CloseIcon from '@material-ui/icons/Close';
+import { Button, Modal, Divider, Dialog, DialogTitle, IconButton, DialogActions, DialogContent, Stack } from '@material-ui/core';
+import { styled } from '@material-ui/styles';
+
 import GenerateInputs from '../GenerateInputs/GenerateInputs'
+
+import forms from '../../data/forms';
+import DraggableDialog from '../Alerts/DraggableDialog'
 import { requestDB } from '../../utils/requestDB'
 import { request } from '../../utils/fetch/searchData'
 import './ModalForm.css'
-import PropTypes from 'prop-types';
-import CloseIcon from '@material-ui/icons/Close';
-import { styled } from '@material-ui/styles';
-import { useEffect, useState } from 'react'
-// import FormAdd from '../../components/forms/pensum/FormAdd'
-import { lazy } from 'react';
-
-// project imports
-import Loadable from '../../ui-component/Loadable';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -68,10 +63,15 @@ const style = {
     p: 4,
 };
 
-const ModalForm = ({ obj, setOpen, open }) => {
-    const handleClose = () => setOpen(false);
+const ModalForm = ({ obj, setOpen, open, change, setChange }) => {
+    
     let form = forms[obj.schema]
+    
     const [values, setvalues] = useState(null)
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alert, setAlert] = useState({ title: "", content: "" })
+
+    const handleClose = () => setOpen(false);
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -93,7 +93,7 @@ const ModalForm = ({ obj, setOpen, open }) => {
                 break;
             case "user":
                 body = obj.type === "add" ? {
-                    email: email.value,
+                    username: username.value,
                     password: password.value,
                     password_repeat: password_repeat.value,
                     program_code: program_code[1].nextSibling.value,
@@ -111,6 +111,12 @@ const ModalForm = ({ obj, setOpen, open }) => {
                         photo: photo.files[0]
                     }
                 break;
+            case "commission":
+                body = {
+                    name: name_commission.value,
+                    description: description.value
+                }
+                break;
             default:
                 break;
         }
@@ -118,9 +124,15 @@ const ModalForm = ({ obj, setOpen, open }) => {
         requestDB(obj.type === "add" ? "POST" : "PUT", url, body)
             .then((response) => {
                 if (response.status === 200) {
-                    //setChange(change?false:true)
+                    console.log(response)
+                    setAlert({ ["title"]: "Exito", ["content"]: "La operación se completo satisfactoriamente" })
+                    setOpenAlert(true)
+                    setChange(change?false:true)
+                    setOpen(false)
                 }
                 else {
+                    setAlert({ ["title"]: "Fallo", ["content"]: "Ocurrio un error y la información no se puede procesar" })
+                    setOpenAlert(true)
                 }
             })
     }
@@ -165,14 +177,14 @@ const ModalForm = ({ obj, setOpen, open }) => {
                                         <GenerateInputs type={input["type"]} data={input["data"]} />
                                     </div>)
                                 })}
-                                {console.log((obj.type === "update") && (values !== null))}
-                                {((obj.type === "update") && (values !== null)) && form["form"].map((input, i) => {
+                                {((obj.type === "update") && (values !== null)) && form["form"].filter((d)=>!(["password", "password_repeat"].includes(d["data"]["name"]))).map((input, i) => {
                                     let currentTag = input["data"]["name"]
+                                    let listName = ["name_program", "name_commission"]
                                     return (<div key={"input-" + input["data"].name + obj.schema} className="input">
                                         <GenerateInputs
                                             type={input["type"]}
                                             data={input["data"]}
-                                            database={values[currentTag === "name_program" ? "name" : currentTag]}
+                                            database={values[listName.includes(currentTag) ? "name" : currentTag]}
                                             update={input["update"]}
                                         />
                                     </div>)
@@ -192,7 +204,7 @@ const ModalForm = ({ obj, setOpen, open }) => {
                                 </DialogActions>
                             </div>
                         </form>}
-
+                        {openAlert && <DraggableDialog info={alert} setOpen={setOpenAlert} open={openAlert} />}
                     </DialogContent>
                 </BootstrapDialog>
             </Modal>

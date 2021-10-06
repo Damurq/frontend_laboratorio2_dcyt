@@ -31,6 +31,10 @@ const MainRoutes = {
         {
             path: '/user',
             element: <DataList />
+        },
+        {
+            path: '/commission',
+            element: <DataList />
         }
     ]
 };

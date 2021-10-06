@@ -1,10 +1,8 @@
 // assets
-import { IconDashboard, IconDeviceAnalytics, IconHome2 } from '@tabler/icons';
+import { IconHome2 } from '@tabler/icons';
 
 // constant
 const icons = {
-    IconDashboard,
-    IconDeviceAnalytics,
     IconHome2
 };
 

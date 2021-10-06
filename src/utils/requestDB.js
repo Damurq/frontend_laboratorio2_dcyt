@@ -21,13 +21,13 @@ async function requestDB(method, url, body = null) {
         let obj = requestObj
         obj["method"] = method
         obj["body"] = JSON.stringify(body)
-        console.log(obj)
         const response = await body ? fetch(url,obj) : fetch(url,obj)
-        console.log("respuesta del servidor",response)
+        //const res = await response
+        //console.log("respuesta del servidor",res)
         return response
     }
     catch (e) {
-        console.log("error al intentar peticion",response)
+        //console.log("error al intentar peticion",response)
         return e.toString()
     }
 }

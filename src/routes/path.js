@@ -28,6 +28,7 @@ const routes = () => {
                 { path: '/pensum', element: <DataList /> },
                 { path: '/program', element: <DataList /> },
                 { path: '/user', element: <DataList /> },
+                { path: '/commission', element: <DataList /> },
                 { path: '/report/1', element: <Report /> },
                 { path: '/', element: <Navigate to="/home" /> }
             ]

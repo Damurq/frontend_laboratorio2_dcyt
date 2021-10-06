@@ -80,7 +80,6 @@ async function filterD(urlBase = "", schema = "", filters = {}) {
         }
     })
     let data = await request(newUrl)
-    //console.log(newUrl)
     return data
 }
 

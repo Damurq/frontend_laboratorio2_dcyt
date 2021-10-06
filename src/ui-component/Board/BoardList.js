@@ -110,7 +110,7 @@ const Board = ({ schema }) => {
                 <div className="header-content-section">
                     <h2 className="title-section">{fomrs.title}</h2>
                     <Button onClick={(e) => onModal(e, "add")} variant="contained" color="success">Añadir</Button>
-                    {openAddUpd && <ModalForm obj={objModal} type="add" setOpen={setOpenAddUpd} open={openAddUpd} change={change} setChange={setChange} />}
+                    {openAddUpd && <ModalForm obj={objModal} type="add" setOpen={setOpenAddUpd} open={openAddUpd} />}
                 </div>
                 {data.length > 0 ?
                     (<React.Fragment>
@@ -135,7 +135,7 @@ const Board = ({ schema }) => {
                                                         case "photo":
                                                             return (<td key={'camp--' + ndx2 + camp}>
                                                                 <div className="user-perfile">
-                                                                    <img className="user-perfile__img" src={process.env.REACT_APP_API_URL + obj[camp]} alt={`${obj["first_name"]} ${obj["last_name"]}`} />
+                                                                    <img className="user-perfile__img" src={process.env.REACT_APP_API_URL + obj[camp]} alt={obj["first_name"] + obj["last_name"]} />
                                                                 </div>
                                                             </td>)
                                                         case "file_pdf":

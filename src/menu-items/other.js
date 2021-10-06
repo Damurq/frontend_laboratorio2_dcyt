@@ -1,11 +1,10 @@
+/* eslint-disable */
 // assets
-import { IconBrandChrome, IconHelp, IconSitemap, IconCertificate, IconFileCertificate, IconUsers } from '@tabler/icons';
+import { IconApps, IconCertificate, IconFileCertificate, IconUsers } from '@tabler/icons';
 
 // constant
 const icons = {
-    IconBrandChrome,
-    IconHelp,
-    IconSitemap,
+    IconApps,
     IconCertificate,
     IconFileCertificate,
     IconUsers
@@ -14,7 +13,7 @@ const icons = {
 // ===========================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||=========================== //
 
 const other = {
-    id: 'sample-docs-roadmap',
+    id: 'cruds',
     type: 'group',
     children: [
         {
@@ -42,11 +41,11 @@ const other = {
             breadcrumbs: false
         },
         {
-            id: 'reportes',
-            title: 'Reportes',
+            id: 'comisión',
+            title: 'Comición',
             type: 'item',
-            url: '/report/1',
-            icon: icons.IconUsers,
+            url: '/commission',
+            icon: icons.IconApps,
             breadcrumbs: false
         }
     ]
