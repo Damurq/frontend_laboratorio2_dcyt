@@ -11,6 +11,7 @@ const DashboardDefault = Loadable(lazy(() => import('views/pages/Home')));
 
 // sample page routing
 const DataList = Loadable(lazy(() => import('views/pages/DataList/DataList')));
+const DataListEspecial = Loadable(lazy(() => import('views/pages/DataListEspecial/DataListEspecial')));
 const Report = Loadable(lazy(() => import('views/pages/Report/Report')));
 
 // login option 3 routing
@@ -29,6 +30,7 @@ const routes = () => {
                 { path: '/program', element: <DataList /> },
                 { path: '/user', element: <DataList /> },
                 { path: '/commission', element: <DataList /> },
+                { path: '/program_pensum', element: <DataListEspecial /> },
                 { path: '/report/1', element: <Report /> },
                 { path: '/', element: <Navigate to="/home" /> }
             ]

@@ -46,6 +46,9 @@ const Board = ({ schema }) => {
                         let fdt = filterDataTable(schemas[schema]['data'], response.results);
                         setData(fdt);
                     }
+                    else{
+                        setData(response.results);
+                    }
                 })
         } else {
             const offset = (data.currentPage - 1) * pageLimit;
@@ -81,12 +84,16 @@ const Board = ({ schema }) => {
                 let url = ((currentPage === 1) || !(currentPage === undefined)) ? `${process.env.REACT_APP_API_URL}/api/${schema}/list` : `${process.env.REACT_APP_API_URL}/api/${schema}/list/?page=` + data.currentPage
                 request(url)
                     .then((response) => {
-                        //console.log(response)
+                        console.log(response)
                         setTotalRecords(response['count']);
                         if (response.results.length > 0) {
                             setPageLimit(response.results.length);
                             let fdt = filterDataTable(schemas[schema]["data"], response.results);
                             setData(fdt);
+                        }
+                        else{
+                            console.log("here")
+                            setData(response.results);
                         }
                     })
             }

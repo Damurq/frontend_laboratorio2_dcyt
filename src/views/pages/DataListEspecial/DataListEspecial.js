@@ -5,17 +5,19 @@ import { useLocation } from 'react-router-dom';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
-import Board from 'ui-component/Board/Board';
+import BoardList from 'ui-component/Board/BoardList';
 //= =============================|| SAMPLE PAGE ||==============================//
 
-const DataList = () => {
+const DataListEspecial = () => {
     const location = useLocation();
     const path = location.pathname.replace('/', '');
+    console.log('here');
+
     return (
         <MainCard>
-            <Board schema={path} />
+            <BoardList schema={path} />
         </MainCard>
     );
 };
 
-export default DataList;
+export default DataListEspecial;

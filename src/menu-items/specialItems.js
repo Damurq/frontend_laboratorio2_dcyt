@@ -25,7 +25,7 @@ const specialItems = {
                     id: 'programas_pensum',
                     title: 'Programas y sus pensums',
                     type: 'item',
-                    url: '/program',
+                    url: '/program_pensum',
                     icon: icons.IconCertificate,
                     breadcrumbs: false
                 },

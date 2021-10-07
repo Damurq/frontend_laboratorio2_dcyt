@@ -39,6 +39,16 @@
             "status":"Estado"
         },
         "ignore":[]
+    },
+    "program_pensum":{
+        "data":["code","name","description","status"],
+        "labels":{
+            "code":"Codigo",
+            "name":"Nombre",
+            "description":"Descripción",
+            "status":"Estado"
+        },
+        "ignore":[]
     }
 
 }

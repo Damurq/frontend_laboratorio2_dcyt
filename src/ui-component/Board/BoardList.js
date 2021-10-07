@@ -17,7 +17,7 @@ import forms from 'data/forms.json';
  * @param {schema} permite determinar los datos que se van a imprimir-esp
  * @returns JSX
  */
-const Board = ({ schema }) => {
+const BoardList = ({ schema }) => {
     //
     const fields = schemas[schema]["data"].filter(f => !schemas[schema]["ignore"].includes(f))
     const fomrs = forms[schema];
@@ -81,7 +81,7 @@ const Board = ({ schema }) => {
                 let url = ((currentPage === 1) || !(currentPage === undefined)) ? `${process.env.REACT_APP_API_URL}/api/${schema}/list` : `${process.env.REACT_APP_API_URL}/api/${schema}/list/?page=` + data.currentPage
                 request(url)
                     .then((response) => {
-                        //console.log(response)
+                        console.log(response)
                         setTotalRecords(response['count']);
                         if (response.results.length > 0) {
                             setPageLimit(response.results.length);
@@ -201,4 +201,4 @@ const Board = ({ schema }) => {
 
 }
 
-export default Board;
+export default BoardList;

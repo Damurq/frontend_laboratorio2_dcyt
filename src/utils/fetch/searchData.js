@@ -23,8 +23,10 @@ const requestObj = {
  */
 async function request(url) {
     try {
-        let obj = defaultObject
+        let obj = JSON.parse(JSON.stringify(defaultObject))
         const response = await fetch(url,requestObj)
+        console.log(url,obj)
+        console.log("response",response)
         if (!response.ok) {
             return defaultObject
         }
@@ -95,31 +97,15 @@ async function getAll(urlBase = "", schema = "", labels) {
 }
 
 async function character() {
-    let data = await request("https://rickandmortyapi.com/api/character")
+    let data = await request("http://localhost:8000/api/program_pensum/list")
+    console.log(data)
     return data.results
 }
-
-async function episode() {
-    let data = await request("https://rickandmortyapi.com/api/episode")
-    return data.results
-}
-
-async function getDataBar(section, labels, label) {
-    let result = await getAll("https://rickandmortyapi.com/api/", section, labels)
-    let dta = result.map((d) => d[label])
-    return dta
-
-}
-
-
-
 
 module.exports = {
-    getDataBar,
     request,
     filterD,
     getAll,
     character,
-    episode,
     filterDataTable
 }
