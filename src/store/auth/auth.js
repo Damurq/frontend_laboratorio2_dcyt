@@ -39,6 +39,7 @@ export const loginUser = (username, password) => async dispatch => {
             });
         }
     } catch (err) {
+        alert("Credenciales invalidas")
         dispatch({
             type: LOGIN_FAIL
         });
