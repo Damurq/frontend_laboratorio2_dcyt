@@ -105,7 +105,7 @@ const GenerateInputs = ({ type, data, database = null, update = true }) => {
                 />
             );
         case "combobox":
-            const [program, setProgram] = useState('');
+            const [program, setProgram] = useState(database ? database : '');
             const handleChange = (event) => {
                 setProgram(event.target.value);
             };
@@ -115,7 +115,7 @@ const GenerateInputs = ({ type, data, database = null, update = true }) => {
                     <Select
                         name={data.name}
                         id={data.name}
-                        value={database ? database : program}
+                        value={!(update) ? database : program}
                         label={data.label}
                         onChange={handleChange}
                     >
