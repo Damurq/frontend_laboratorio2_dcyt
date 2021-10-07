@@ -25,8 +25,6 @@ async function request(url) {
     try {
         let obj = JSON.parse(JSON.stringify(defaultObject))
         const response = await fetch(url,requestObj)
-        console.log(url,obj)
-        console.log("response",response)
         if (!response.ok) {
             return defaultObject
         }
@@ -36,7 +34,7 @@ async function request(url) {
             if (Array.isArray(json)){
                 obj["count"] = json.length
                 obj["pages"] = 1
-                obj["results"] = json
+                obj["results"] = Array.isArray(json) ? json : [json]
                 return obj
             }
             else{

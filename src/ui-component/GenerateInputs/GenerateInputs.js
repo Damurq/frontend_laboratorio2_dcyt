@@ -7,7 +7,7 @@ import { Typography } from '@material-ui/core';
 import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Button } from '@material-ui/core';
 import { DatePicker, LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import { filterDataTable, request } from '../../utils/fetch/searchData'
+import { filterDataTable, request } from '../../utils/searchData'
 
 const GenerateInputs = ({ type, data, database = null, update = true }) => {
     const [comboBox, setComboBox] = useState(data.val);
@@ -17,6 +17,16 @@ const GenerateInputs = ({ type, data, database = null, update = true }) => {
             const ac = new AbortController();
             if (data.name == "program_code") {
                 let url = "http://127.0.0.1:8000" + "/api/" + "program" + "/list/"
+                request(url)
+                    .then((response) => {
+                        if (response.results.length > 0) {
+                            let fdt = filterDataTable(["code", "name"], response.results);
+                            setComboBox(fdt)
+                        }
+                    })
+            }
+            else if (data.name == "commission_code") {
+                let url = "http://127.0.0.1:8000" + "/api/" + "commission" + "/list/"
                 request(url)
                     .then((response) => {
                         if (response.results.length > 0) {

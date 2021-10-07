@@ -1,6 +1,6 @@
 /* eslint-disable */
 import './Board.css'
-import { filterDataTable, request } from '../../utils/fetch/searchData.js'
+import { filterDataTable, request } from '../../utils/searchData.js'
 import { requestDB } from '../../utils/requestDB'
 import { useEffect, useState } from 'react'
 import schemas from '../../data/filterData.json'
@@ -81,7 +81,6 @@ const BoardList = ({ schema }) => {
                 let url = ((currentPage === 1) || !(currentPage === undefined)) ? `${process.env.REACT_APP_API_URL}/api/${schema}/list` : `${process.env.REACT_APP_API_URL}/api/${schema}/list/?page=` + data.currentPage
                 request(url)
                     .then((response) => {
-                        console.log(response)
                         setTotalRecords(response['count']);
                         if (response.results.length > 0) {
                             setPageLimit(response.results.length);

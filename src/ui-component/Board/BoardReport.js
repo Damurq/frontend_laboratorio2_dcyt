@@ -1,40 +1,41 @@
 /* eslint-disable */
-import './Board.css'
-import { getAll, request } from '../../utils/fetch/searchData.js'
-import { useEffect, useState } from 'react'
-import report from '../../data/reports.json'
-import React from 'react'
+import React from 'react';
+import { useEffect, useState } from 'react';
 
+// project imports
+import { getAll, request } from '../../utils/searchData.js';
+import report from '../../data/reports.json';
 
-/**
- *  Pantalla que permite imprimir datos de la api  de Rick y morty -esp
- * @param {schema} permite determinar los datos que se van a imprimir-esp
- * @returns JSX
- */
+// style
+import './Board.css';
+
 const BoardReport = ({ numReport }) => {
-    //
-    const reportObj = report[numReport];
-    const [data, setData] = useState([])                        //Datos actuales en pantalla
-    const fields = reportObj["fields"]
+    // Variables
+    const reportObj = report[numReport];                        // Objeto que contiene información del reporte
+    const fields = reportObj["fields"]                          // Nombre en español que se le asignará em el head de la tabla
+    // Estados
+    const [data, setData] = useState([])                        // Datos actuales en pantalla
+
     useEffect(() => {
         const ac = new AbortController();
-        // let url = ((data.currentPage === 1) || (data.currentPage === undefined)) ? `${process.env.REACT_APP_API_URL}/api/${schema}/list` : `${process.env.REACT_APP_API_URL}/api/${schema}/list/?page=` + data.currentPage
         let urlBase = `${process.env.REACT_APP_API_URL}/api/`
         const fetchData = async () => {
-            const data = await getAll(urlBase, reportObj["base"]["pathBase"], reportObj["base"]["labels"]);
+            const dat = await getAll(urlBase, reportObj["base"]["pathBase"], reportObj["base"]["labels"]);
             let temporalList = []
-            data.forEach((obj)=>{
+            console.log(dat,temporalList)
+            dat.forEach((obj,i)=>{
                 const fetchData2 = async () => {
                     let pensum = await request(urlBase+reportObj["pathReport"]+"/"+obj["code"])
-                    temporalList.push(pensum)
-                    setData(temporalList.concat([pensum]));
+                    if (dat.length-1>i){temporalList.push(pensum);}
+                    setData(temporalList.concat([pensum]))
                 }
                 fetchData2();
             })
         };
         fetchData();
         return () => ac.abort();
-    }, []);
+    }, [numReport]);
+    
     return (
         <div>
             <div id='board' className='board'>
@@ -56,7 +57,6 @@ const BoardReport = ({ numReport }) => {
                                 </thead>
                                 <tbody>
                                     {data.map((obj, index) => {
-                                        console.log(obj)
                                         return (
                                             <tr key={'obj--' + index}>
                                                 {Object.keys(fields).map((camp, ndx2) => {

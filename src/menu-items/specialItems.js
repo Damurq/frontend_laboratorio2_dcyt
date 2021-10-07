@@ -31,7 +31,7 @@ const specialItems = {
                 },
                 {
                     id: 'comisión_pensum',
-                    title: 'Comición y sus pensums',
+                    title: 'Comisión y sus pensums',
                     type: 'item',
                     url: '/comission',
                     icon: icons.IconApps,

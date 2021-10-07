@@ -25,6 +25,19 @@
                 "update":true
             },
             {
+                "type":"combobox",
+                "data":{
+                    "label":"Comisión",
+                    "val":[{
+                        "code":0,
+                        "name":"----------------"
+                    }],
+                    "name":"commission_code"
+                },
+                "create":true,
+                "update":true
+            },
+            {
                 "type":"text",
                 "data":{
                     "label":"Descripción",
@@ -270,7 +283,7 @@
                 "type":"text",
                 "data":{
                     "label":"Estado",
-                    "name":"status"
+                    "name":"is_active"
                 },
                 "create":false,
                 "update":false

@@ -102,7 +102,7 @@ export const logout = () => async dispatch => {
                     'Authorization': 'Token ' + token
                 }
             };
-            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/logout`, config);
+            const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/logout`, config2);
             localStorage.removeItem('token');
             localStorage.removeItem('name');
             localStorage.removeItem('role');

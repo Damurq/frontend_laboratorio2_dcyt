@@ -42,7 +42,7 @@ const other = {
         },
         {
             id: 'comisión',
-            title: 'Comición',
+            title: 'Comisión',
             type: 'item',
             url: '/commission',
             icon: icons.IconApps,

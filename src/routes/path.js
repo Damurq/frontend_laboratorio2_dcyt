@@ -32,6 +32,7 @@ const routes = () => {
                 { path: '/commission', element: <DataList /> },
                 { path: '/program_pensum', element: <DataListEspecial /> },
                 { path: '/report/1', element: <Report /> },
+                { path: '/report/2', element: <Report /> },
                 { path: '/', element: <Navigate to="/home" /> }
             ]
         },

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import './Board.css'
-import { filterDataTable, request } from '../../utils/fetch/searchData.js'
+import { filterDataTable, request } from '../../utils/searchData.js'
 import { requestDB } from '../../utils/requestDB'
 import { useEffect, useState } from 'react'
 import schemas from '../../data/filterData.json'
@@ -12,11 +12,7 @@ import { Button } from '@material-ui/core';
 import ModalForm from '../../ui-component/modalForm/ModalForm'
 import forms from 'data/forms.json';
 
-/**
- *  Pantalla que permite imprimir datos de la api  de Rick y morty -esp
- * @param {schema} permite determinar los datos que se van a imprimir-esp
- * @returns JSX
- */
+
 const Board = ({ schema }) => {
     //
     const fields = schemas[schema]["data"].filter(f => !schemas[schema]["ignore"].includes(f))
@@ -92,7 +88,6 @@ const Board = ({ schema }) => {
                             setData(fdt);
                         }
                         else{
-                            console.log("here")
                             setData(response.results);
                         }
                     })

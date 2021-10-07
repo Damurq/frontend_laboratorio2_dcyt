@@ -21,10 +21,18 @@ const reports = {
             icon: icons.IconDeviceAnalytics,
             children: [
                 {
-                    id: 'program report',
+                    id: 'program_report',
                     title: 'Reporte de programas',
                     type: 'item',
                     url: '/report/1',
+                    icon: icons.IconReport,
+                    breadcrumbs: false
+                },
+                {
+                    id: 'comision_report',
+                    title: 'Reporte de comisiones',
+                    type: 'item',
+                    url: '/report/2',
                     icon: icons.IconReport,
                     breadcrumbs: false
                 }

@@ -24,7 +24,13 @@ const Home = () => {
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
-                    <Grid item lg={4} md={6} sm={6} xs={12} />
+                    <div className="presentation">
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Rectorado_de_la_UCLA.jpg/800px-Rectorado_de_la_UCLA.jpg"
+                            alt="ucla_rectorado"
+                            className="cover"
+                        />
+                    </div>
                 </Grid>
             </Grid>
         </Grid>

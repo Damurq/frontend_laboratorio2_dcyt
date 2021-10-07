@@ -12,12 +12,12 @@
     },
     "2":{
         "base":{
-            "pathBase":"program/list",
+            "pathBase":"commission/list",
             "labels":["code"]
         },
-        "pathReport":"program/numberpensum",
+        "pathReport":"commission/numberpensum",
         "fields":{
-            "name_Pro":"Nombre del programa",
+            "name_commi":"Nombre de la comisión",
             "count":"Cantidad de pensums"
         }
     }

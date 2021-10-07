@@ -22,12 +22,9 @@ async function requestDB(method, url, body = null) {
         obj["method"] = method
         obj["body"] = JSON.stringify(body)
         const response = await body ? fetch(url,obj) : fetch(url,obj)
-        //const res = await response
-        //console.log("respuesta del servidor",res)
         return response
     }
     catch (e) {
-        //console.log("error al intentar peticion",response)
         return e.toString()
     }
 }

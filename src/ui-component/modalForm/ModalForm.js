@@ -10,7 +10,7 @@ import GenerateInputs from '../GenerateInputs/GenerateInputs'
 import forms from '../../data/forms';
 import DraggableDialog from '../Alerts/DraggableDialog'
 import { requestDB } from '../../utils/requestDB'
-import { request } from '../../utils/fetch/searchData'
+import { request } from '../../utils/searchData'
 import './ModalForm.css'
 
 
@@ -82,7 +82,8 @@ const ModalForm = ({ obj, setOpen, open, change, setChange }) => {
                 body = {
                     program_code: program_code[1].nextSibling.value,
                     file_pdf: file_pdf.files[0],
-                    description: description.value
+                    description: description.value,
+                    commission_code: commission_code[1].nextSibling.value
                 }
                 break;
             case "program":
@@ -123,7 +124,7 @@ const ModalForm = ({ obj, setOpen, open, change, setChange }) => {
         console.log(body)
         requestDB(obj.type === "add" ? "POST" : "PUT", url, body)
             .then((response) => {
-                if (response.status === 200) {
+                if (response.ok) {
                     console.log(response)
                     setAlert({ ["title"]: "Exito", ["content"]: "La operación se completo satisfactoriamente" })
                     setOpenAlert(true)

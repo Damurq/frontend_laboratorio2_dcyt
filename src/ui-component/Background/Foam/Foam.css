@@ -20,7 +20,7 @@ position: absolute;
 height: 50px;
 bottom: 0;
 left: 0;
-background:rgb(93, 99, 255);
+background:rgba(93, 98, 255, 0);
 }
 svg {
     display: none;
